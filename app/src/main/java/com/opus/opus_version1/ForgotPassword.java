@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,11 @@ public class ForgotPassword extends AppCompatActivity {
     MaterialButton recuperarBoton;
     TextInputEditText emailEditText;
     TextView nuevoUsuario;
+    //Objeto Transicion
+    public static int translateRight = R.anim.translate_right_side;
+    public static int translateLeft = R.anim.translate_left_side;
+    public static int zoomOut = R.anim.zoom_out;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +38,8 @@ public class ForgotPassword extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         //Al Dar Click Procesos
         nuevoUsuario.setOnClickListener(v -> {
-            Intent intent = new Intent(ForgotPassword.this, Sign_Up.class);
-            startActivity(intent);
+            startActivity(new Intent(ForgotPassword.this, Sign_Up.class));
+            overridePendingTransition(0,translateRight);
             finish();
         });
         recuperarBoton.setOnClickListener(v -> validate());
@@ -71,8 +77,8 @@ public class ForgotPassword extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(ForgotPassword.this, Login.class);
-        startActivity(intent);
+        startActivity(new Intent(ForgotPassword.this, Login.class));
+        overridePendingTransition(0,zoomOut);
         finish();
     }
 }

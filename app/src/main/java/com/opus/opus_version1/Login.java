@@ -48,6 +48,10 @@ public class Login extends AppCompatActivity {
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 0;
+    //Objeto Transicion
+    public static int translateRight = R.anim.translate_right_side;
+    public static int zoomOut = R.anim.zoom_out;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,26 +82,16 @@ public class Login extends AppCompatActivity {
                 .build();
         //Instrucciones Al Dar Click
         olvidasteContrasena.setOnClickListener(v -> {
-            Intent intent = new Intent(Login.this, ForgotPassword.class);
-            startActivity(intent);
+            startActivity(new Intent(Login.this, ForgotPassword.class));
+            overridePendingTransition(0,translateRight);
             finish();
         });
         inicioSesion.setOnClickListener(v -> validate());
         signInButton.setOnClickListener(v -> signInWithGoogle());
         nuevoUsuario.setOnClickListener(v -> {
-            Intent intent = new Intent(Login.this, Sign_Up.class);
-            Pair[] pairs = new Pair[7];
-            pairs[0] = new Pair<View, String>(loginImageView, "logoImageTrans");
-            pairs[1] = new Pair<View, String>(bienvenidoLabel, "textTrans");
-            pairs[2] = new Pair<View, String>(continuarLabel, "iniciaSesionTextTrans");
-            pairs[3] = new Pair<View, String>(usuarioTextField, "emailInputTextTrans");
-            pairs[4] = new Pair<View, String>(contrasenaTextField, "passwordInputTextTrans");
-            pairs[5] = new Pair<View, String>(inicioSesion, "buttonSingInTrans");
-            pairs[6] = new Pair<View, String>(nuevoUsuario, "newUserTrans");
-
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this, pairs);
-            startActivity(intent, options.toBundle());
-
+            startActivity(new Intent(Login.this, Sign_Up.class));
+            overridePendingTransition(0,zoomOut);
+            finish();
         });
 
         //Google

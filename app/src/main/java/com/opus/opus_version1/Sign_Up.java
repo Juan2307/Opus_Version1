@@ -33,6 +33,9 @@ public class Sign_Up extends AppCompatActivity {
     FirebaseDatabase database;
     private DatabaseReference myRef;
     FirebaseAuth mAuth;
+    //Objeto Transicion
+    public static int translateUp = R.anim.slide_out_up;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +67,19 @@ public class Sign_Up extends AppCompatActivity {
         terminoCondiciones = findViewById(R.id.idChec1);
         //Al Dar Click Proceso
         inicioSesion.setOnClickListener(v -> validate());
-        nuevoUsuario.setOnClickListener(v -> onBackPressed());
-        terminoCondiciones.setOnClickListener(v -> {
-            int id = v.getId();
-            if (id == R.id.idChec1) {
-                Uri uri = Uri.parse("https://politicasopus.000webhostapp.com/");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
+        nuevoUsuario.setOnClickListener(v -> {
+            startActivity(new Intent(Sign_Up.this, Login.class));
+            overridePendingTransition(0,translateUp);
+            finish();
         });
+                terminoCondiciones.setOnClickListener(v -> {
+                    int id = v.getId();
+                    if (id == R.id.idChec1) {
+                        Uri uri = Uri.parse("https://politicasopus.000webhostapp.com/");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
     }
 
     public void validate() {
@@ -164,8 +171,7 @@ public class Sign_Up extends AppCompatActivity {
             if (task.isSuccessful()) {
                 Destinos destinos = new Destinos(documento, nombre, apellido, telefono, email);
                 myRef.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).setValue(destinos); //getUid.CHIL documento
-                Intent intent = new Intent(Sign_Up.this, Bienvenido.class);
-                startActivity(intent);
+                startActivity(new Intent(Sign_Up.this, Bienvenido.class));
                 finish();
             }
         }).addOnFailureListener(e -> Toast.makeText(Sign_Up.this, "Cuenta Ya Vinculada", Toast.LENGTH_SHORT).show());
@@ -173,8 +179,9 @@ public class Sign_Up extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Sign_Up.this, Login.class);
-        startActivity(intent);
+        super.onBackPressed();
+        startActivity(new Intent(Sign_Up.this, Login.class));
+        overridePendingTransition(0, translateUp);
         finish();
     }
 }
