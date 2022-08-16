@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="25dp"
+    tools:context=".Sign_Up">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--Logo-->
+            <ImageView
+                android:id="@+id/signUpImageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="start"
+                android:contentDescription="@string/opus"
+                android:src="@drawable/opus"
+                android:transitionName="logoImageTrans" />
+            <!--Titulo-->
+            <TextView
+                android:id="@+id/bienvenidoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/abel"
+                android:text="@string/bienvenido1"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:transitionName="textTrans" />
+            <!--Encabezado-->
+            <TextView
+                android:id="@+id/continuarLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/abel"
+                android:text="@string/encabezado0"
+                android:textSize="24sp"
+                android:transitionName="iniciaSesionTextTrans" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:orientation="vertical">
+
+                    <!--Text Field Documento-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/documento">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/documentoTextField"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="?android:attr/fingerprintAuthDrawable"
+                            android:fontFamily="@font/abel"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Text Field Nombre-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nombre">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nameTextField"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@android:drawable/ic_menu_myplaces"
+                            android:fontFamily="@font/abel"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Text Field Apellido-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/apellido">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/lastnameTextField"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@android:drawable/ic_menu_myplaces"
+                            android:fontFamily="@font/abel"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Text Field Telefono-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/telefono">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/telefonoTextField"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@android:drawable/sym_action_call"
+                            android:fontFamily="@font/abel"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Text Field E-mail-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/usuarioSingUpTextField"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/correo"
+                        android:transitionName="emailInputTextTrans">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/emailEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@android:drawable/sym_action_email"
+                            android:fontFamily="@font/abel"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Text Field Contraseña-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/contrasenaTextField"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/contraseña"
+                        android:transitionName="passwordInputTextTrans"
+                        app:passwordToggleEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/passwordEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+                            android:fontFamily="@font/abel"
+                            android:inputType="textPassword"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Text Field Confirmar Contraseña-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/confirmarContrasenaTextField"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/contrasena1"
+                        app:passwordToggleEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/confirmPasswordEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+                            android:fontFamily="@font/abel"
+                            android:inputType="textPassword"
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <!--CheckBox Termino Y Condiciones-->
+            <CheckBox
+                android:id="@+id/idChec1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:keepScreenOn="false"
+                android:linksClickable="false"
+                android:text="@string/terminos"
+                android:textColor="@color/purple_700"
+                android:textStyle="bold" />
+
+
+            <!--Boton Registrar-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/inicioSesion"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/registrar"
+                android:textColor="@color/black"
+                android:transitionName="buttonSingInTrans" />
+
+            <!--Boton Tengo Cuenta-->
+            <TextView
+                android:id="@+id/nuevoUsuario"
+                android:layout_width="267dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/abel"
+                android:text="@string/text0"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:transitionName="newUserTrans" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+

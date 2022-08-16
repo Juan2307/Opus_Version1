@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "569608213840",
+    "project_id": "loginopus-23248",
+    "storage_bucket": "loginopus-23248.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569608213840:android:c0a90d1885d8178ac34855",
+        "android_client_info": {
+          "package_name": "com.opus.opus_version1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569608213840-cjiuaudfev636o05im5n16lr11blf0ph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1W56SmmeJ9S9qZdKCJHJ3VYz0SKS1PnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569608213840-cjiuaudfev636o05im5n16lr11blf0ph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
