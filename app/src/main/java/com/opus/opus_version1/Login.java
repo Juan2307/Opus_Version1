@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 0;
     //Objeto Transicion
-    public static int translateRight = R.anim.translate_right_side;
     public static int zoomOut = R.anim.zoom_out;
 
 
@@ -82,8 +81,8 @@ public class Login extends AppCompatActivity {
                 .build();
         //Instrucciones Al Dar Click
         olvidasteContrasena.setOnClickListener(v -> {
-            startActivity(new Intent(Login.this, ForgotPassword.class));
-            overridePendingTransition(0,translateRight);
+            startActivity(new Intent(this, ForgotPassword.class));
+            overridePendingTransition(0,zoomOut);
             finish();
         });
         inicioSesion.setOnClickListener(v -> validate());
@@ -179,8 +178,9 @@ public class Login extends AppCompatActivity {
                         mdialog.show();
                         Handler handler = new Handler();
                         handler.postDelayed(() -> {
-                            Intent intent = new Intent(Login.this, Bienvenido.class);
-                            startActivity(intent);
+                            startActivity(new Intent(Login.this, Bienvenido.class));
+                            overridePendingTransition(0,zoomOut);
+                            finish();
                             mdialog.dismiss();
                             passwordEditText.setText("");
                             emailEditText.setText("");

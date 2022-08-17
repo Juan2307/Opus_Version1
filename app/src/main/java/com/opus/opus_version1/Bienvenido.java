@@ -28,6 +28,7 @@ public class Bienvenido extends AppCompatActivity {
     //Objeto FireBase
     private DatabaseReference mDatabaseReference;
     FirebaseAuth mAuth;
+    public static int zoomOut = R.anim.zoom_out;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +47,11 @@ public class Bienvenido extends AppCompatActivity {
                 .load(R.drawable.abeja)
                 .centerCrop()
                 .into(abeja);
-
         //Duracion y Siguiente EmptyActivyty
         new Handler().postDelayed(() -> {
             Toast.makeText(this, "Ingresando", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(Bienvenido.this, UserActivity.class);
-            startActivity(i);
+            startActivity(new Intent(Bienvenido.this, UserActivity.class));
+            overridePendingTransition(0, zoomOut);
             finish();
         }, 4000);
         //ObtenciÓn De Datos Y Actualizarlos En La Vista

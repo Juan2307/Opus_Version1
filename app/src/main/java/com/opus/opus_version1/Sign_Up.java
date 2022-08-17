@@ -1,11 +1,13 @@
 package com.opus.opus_version1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,12 +38,12 @@ public class Sign_Up extends AppCompatActivity {
     //Objeto Transicion
     public static int translateUp = R.anim.slide_out_up;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         setTitle("REGISTER");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //Instancio las Transiciones del ID
         signUpImageView = findViewById(R.id.signUpImageView);
         bienvenidoLabel = findViewById(R.id.bienvenidoLabel);
@@ -69,10 +71,10 @@ public class Sign_Up extends AppCompatActivity {
         inicioSesion.setOnClickListener(v -> validate());
         nuevoUsuario.setOnClickListener(v -> {
             startActivity(new Intent(Sign_Up.this, Login.class));
-            overridePendingTransition(0,translateUp);
+            overridePendingTransition(0, translateUp);
             finish();
         });
-                terminoCondiciones.setOnClickListener(v -> {
+        terminoCondiciones.setOnClickListener(v -> {
                     int id = v.getId();
                     if (id == R.id.idChec1) {
                         Uri uri = Uri.parse("https://politicasopus.000webhostapp.com/");
@@ -81,7 +83,7 @@ public class Sign_Up extends AppCompatActivity {
                     }
                 });
     }
-
+    //🡣🡣🡣Validacion De Los Campos🡣🡣🡣
     public void validate() {
         //Recoger Datos
         String documento = Objects.requireNonNull(Objects.requireNonNull(documentoTextField.getText()).toString().trim());
@@ -165,7 +167,7 @@ public class Sign_Up extends AppCompatActivity {
             Toast.makeText(Sign_Up.this, "Aceptar Terminos Y Condiciones", Toast.LENGTH_SHORT).show();
         }
     }
-
+    //🡣🡣🡣Validar Si La Cuenta Existe o La Crea🡣🡣🡣
     public void registrar(String documento, String nombre, String apellido, String telefono, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -183,5 +185,16 @@ public class Sign_Up extends AppCompatActivity {
         startActivity(new Intent(Sign_Up.this, Login.class));
         overridePendingTransition(0, translateUp);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(Sign_Up.this, Login.class));
+            overridePendingTransition(0, translateUp);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

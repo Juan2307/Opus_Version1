@@ -1,11 +1,13 @@
 package com.opus.opus_version1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +24,6 @@ public class ForgotPassword extends AppCompatActivity {
     TextView nuevoUsuario;
     //Objeto Transicion
     public static int translateRight = R.anim.translate_right_side;
-    public static int translateLeft = R.anim.translate_left_side;
     public static int zoomOut = R.anim.zoom_out;
 
 
@@ -31,6 +32,8 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         setTitle("Olvide Mi Contraseña");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //Instancio los Botones del ID
         nuevoUsuario = findViewById(R.id.nuevoUsuario);
         recuperarBoton = findViewById(R.id.recuperarBoton);
@@ -39,7 +42,7 @@ public class ForgotPassword extends AppCompatActivity {
         //Al Dar Click Procesos
         nuevoUsuario.setOnClickListener(v -> {
             startActivity(new Intent(ForgotPassword.this, Sign_Up.class));
-            overridePendingTransition(0,translateRight);
+            overridePendingTransition(0, translateRight);
             finish();
         });
         recuperarBoton.setOnClickListener(v -> validate());
@@ -78,7 +81,19 @@ public class ForgotPassword extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(ForgotPassword.this, Login.class));
-        overridePendingTransition(0,zoomOut);
+        overridePendingTransition(0, zoomOut);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(ForgotPassword.this, Login.class));
+                overridePendingTransition(0, zoomOut);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
