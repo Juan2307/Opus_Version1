@@ -1,18 +1,15 @@
 package com.opus.opus_version1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Pair;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -88,7 +85,7 @@ public class Login extends AppCompatActivity {
         inicioSesion.setOnClickListener(v -> validate());
         signInButton.setOnClickListener(v -> signInWithGoogle());
         nuevoUsuario.setOnClickListener(v -> {
-            startActivity(new Intent(Login.this, Sign_Up.class));
+            startActivity(new Intent(Login.this, SplashScreen.class));
             overridePendingTransition(0,zoomOut);
             finish();
         });

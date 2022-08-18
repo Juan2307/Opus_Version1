@@ -141,4 +141,6 @@ public class EditProfileFragment extends Fragment {
                 addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Datos Actualizados", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(getActivity(), "Hubo Un Error Al Actualizar Los Datos", Toast.LENGTH_SHORT).show());
     }
+
+
 }

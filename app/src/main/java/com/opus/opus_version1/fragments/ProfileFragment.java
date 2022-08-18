@@ -1,5 +1,7 @@
 package com.opus.opus_version1.fragments;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opus.opus_version1.Login;
 import com.opus.opus_version1.R;
 
 import java.util.Objects;
@@ -83,8 +86,13 @@ public class ProfileFragment extends Fragment {
         });
 
         view.findViewById(R.id.logoutButton).setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            getActivity().onBackPressed();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("¿Deseas Cerrar Sesion?")
+                    .setPositiveButton("Si", (dialog, which) -> {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(getActivity(), Login.class));
+                    }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+            builder.show();
         });
         view.findViewById(R.id.btnActualizarDatos).setOnClickListener(v -> {
             // Create new fragment and transaction

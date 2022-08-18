@@ -2,9 +2,14 @@
     <string name="app_name">Opus</string>
     <string name="web_client_id">569608213840-cjiuaudfev636o05im5n16lr11blf0ph.apps.googleusercontent.com</string>
 
-    <!--Portada-->
+    <!--Splash Screen-->
     <string name="opus">OPUS</string>
     <string name="de">Of</string>
+    <string name="slogan_name">We will help you find your way!</string>
+    <string name="powered_by">Powered by taimoor sikander</string>
+
+
+
     <!--Login-->
     <string name="inicio_de_sesion">Inicio De Sesion</string>
     <string name="ingresa_tu_cuenta">Ingresa Tu Cuenta</string>
@@ -26,6 +31,23 @@
     <string name="registrar">Registrar</string>
     <string name="text0">¿Ya Tienes Cuenta? Inicia Sesion!</string>
 
+    <!--Boarding Screen-->
+    <!--Titles-->
+    <string name="first_slide_title">Search Your Location</string>
+    <string name="second_slide_title">Make A Call</string>
+    <string name="third_slide_title">Add Missing Place</string>
+    <string name="fourth_slide_title">Sit Back Enjoy</string>
+    <!--Descriptions-->
+    <string name="first_slide_desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nam similique </string>
+    <string name="second_slide_desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem corporis repudiandae</string>
+    <string name="third_slide_desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, at tenetur soluta sunt </string>
+    <string name="fourth_slide_desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quidem fuga deleniti</string>
+    <!--Buttons-->
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="let_get_started">Lets Get Started</string>
+
+
     <!--Bienvenido-->
     <string name="abejita">abejita</string>
     <string name="bienvenido">BIENVENIDO</string>
@@ -35,17 +57,20 @@
     <string name="fortgot1">Recupera Tu Contraseña</string>
     <string name="Recuperar">RECUPERAR</string>
 
+
     <!--Navegation Menu-->
+    <!--Titles-->
     <string name="home">Home</string>
     <string name="perfil">Perfil</string>
     <string name="configuraciones">Configuraciones</string>
-
+    <!--Home-->
+    <string name="categorias">categorias</string>
     <!--Profile-->
     <string name="EditProfile">Edit Profile</string>
     <string name="logout">LOGOUT</string>
-
     <!--Edit Profile-->
     <string name="actualizar">Actualizar</string>
-
     <!--Settings-->
+
+
 </resources>

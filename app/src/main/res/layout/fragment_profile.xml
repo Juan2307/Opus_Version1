@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".fragments.ProfileFragment"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -59,7 +60,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
                 android:text="@string/EditProfile"
-                android:textColor="@color/white" />
+                android:textColor="@color/black"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/logoutButton"
@@ -68,7 +69,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
                 android:text="@string/logout"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</FrameLayout>
+</LinearLayout>

@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Login">
+    tools:context="Login">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -66,7 +66,9 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@android:drawable/sym_action_email"
                     android:fontFamily="@font/abel"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:inputType="textEmailAddress">
+                </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
             <!--TextFiel Password-->
             <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +80,6 @@
                 android:hint="@string/contraseña"
                 android:transitionName="passwordInputTextTrans"
                 app:passwordToggleEnabled="true">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
@@ -119,6 +120,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp">
             </com.google.android.gms.common.SignInButton>
+
             <!--Button No Tengo Cuenta-->
             <TextView
                 android:id="@+id/nuevoUsuario"
