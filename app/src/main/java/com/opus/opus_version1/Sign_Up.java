@@ -182,7 +182,7 @@ public class Sign_Up extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(Sign_Up.this, Login.class));
+        startActivity(new Intent(Sign_Up.this, Perfil.class));
         overridePendingTransition(0, translateUp);
         finish();
     }
@@ -190,7 +190,7 @@ public class Sign_Up extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(Sign_Up.this, Login.class));
+            startActivity(new Intent(Sign_Up.this, Perfil.class));
             overridePendingTransition(0, translateUp);
             finish();
             return true;

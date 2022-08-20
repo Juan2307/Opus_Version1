@@ -12,12 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Opus_Version1">
         <activity
+            android:name=".Perfil"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
             android:exported="false" />
         <activity
             android:name=".OnBoarding"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ForgotPassword"
             android:exported="false" />

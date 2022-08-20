@@ -16,6 +16,7 @@ import com.opus.opus_version1.fragments.SettingsFragment;
 public class UserActivity extends AppCompatActivity {
     //Objetos
     BottomNavigationView mBottomNavigation;
+    public static int zoomOut = R.anim.zoom_out;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class UserActivity extends AppCompatActivity {
                 .setPositiveButton("Si", (dialog, which) -> {
                     Intent intent = new Intent(this, Login.class);
                     startActivity(intent);
+                    overridePendingTransition(0,zoomOut);
                     finish();
                 }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
         builder.show();

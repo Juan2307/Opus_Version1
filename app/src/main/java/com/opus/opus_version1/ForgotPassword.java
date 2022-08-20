@@ -40,7 +40,7 @@ public class ForgotPassword extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         //Al Dar Click Procesos
         nuevoUsuario.setOnClickListener(v -> {
-            startActivity(new Intent(ForgotPassword.this, Sign_Up.class));
+            startActivity(new Intent(ForgotPassword.this, SplashScreen.class));
             overridePendingTransition(0, translateRight);
             finish();
         });

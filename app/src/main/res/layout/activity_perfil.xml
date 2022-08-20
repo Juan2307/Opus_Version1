@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Perfil"
+    android:orientation="vertical"
+    android:padding="40dp">
+
+    <!--Titulo-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/perfil"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <!--Encabezado-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/selecciona_el_perfil_que_se_adecua_a_tus_requerimientos"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textSize="18sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="50dp"
+        android:textColor="@color/gray"
+        android:textStyle="bold"/>
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/Usuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Usuario"
+        android:paddingBottom="80dp"
+        android:paddingTop="50dp"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/Proovedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Proovedor"
+        android:paddingBottom="80dp"
+        android:paddingTop="50dp"/>
+
+</LinearLayout>

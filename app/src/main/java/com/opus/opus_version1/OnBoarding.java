@@ -39,7 +39,7 @@ public class OnBoarding extends AppCompatActivity {
         dotsLayout = findViewById(R.id.dots);
         letsGetStarted = findViewById(R.id.get_started_btn);
         letsGetStarted.setOnClickListener(v -> {
-            startActivity(new Intent(OnBoarding.this, Sign_Up.class));
+            startActivity(new Intent(OnBoarding.this, Perfil.class));
             overridePendingTransition(0, translateUp);
             finish();
         });
@@ -54,7 +54,7 @@ public class OnBoarding extends AppCompatActivity {
     }
 
     public void skip(View view) {
-        startActivity(new Intent(this, Sign_Up.class));
+        startActivity(new Intent(this, Perfil.class));
         overridePendingTransition(0, translateUp);
         finish();
     }
