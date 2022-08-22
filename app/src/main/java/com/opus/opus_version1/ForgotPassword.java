@@ -1,5 +1,6 @@
 package com.opus.opus_version1;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -10,34 +11,44 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
+import dmax.dialog.SpotsDialog;
+
 public class ForgotPassword extends AppCompatActivity {
-    //Objetos.
+    //Atributos
     MaterialButton recuperarBoton;
     TextInputEditText emailEditText;
     TextView nuevoUsuario;
+    //Atributo dialog.
+    AlertDialog mdialog;
     //Objeto Transicion
     public static int translateRight = R.anim.translate_right_side;
     public static int zoomOut = R.anim.zoom_out;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         setTitle("Olvide Mi Contraseña");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //Instancio el Objeto de Dialog
+        mdialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Espere Un Momento")
+                .setCancelable(false)
+                .build();
         //Instancio los Botones del ID
         nuevoUsuario = findViewById(R.id.nuevoUsuario);
         recuperarBoton = findViewById(R.id.recuperarBoton);
         //Instancio los TextField del ID
         emailEditText = findViewById(R.id.emailEditText);
+
         //Al Dar Click Procesos
         nuevoUsuario.setOnClickListener(v -> {
             startActivity(new Intent(ForgotPassword.this, SplashScreen.class));
@@ -64,6 +75,7 @@ public class ForgotPassword extends AppCompatActivity {
     public void sendEmail(String email) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+
             if (task.isSuccessful()) {
                 Toast.makeText(ForgotPassword.this, "¡Correo Enviado!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ForgotPassword.this, Login.class);
@@ -86,12 +98,11 @@ public class ForgotPassword extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                startActivity(new Intent(ForgotPassword.this, Login.class));
-                overridePendingTransition(0, zoomOut);
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(ForgotPassword.this, Login.class));
+            overridePendingTransition(0, zoomOut);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

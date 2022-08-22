@@ -21,13 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 public class Bienvenido extends AppCompatActivity {
-    //Objeto Abeja
+    //Atributo Abeja
     ImageView abeja;
-    //Variable Nombre
+    //Atributo Nombre
     private TextView nombrebienvenida;
-    //Objeto FireBase
+    //Atributos FireBase
     private DatabaseReference mDatabaseReference;
     FirebaseAuth mAuth;
+    //Atributos De Transicion
     public static int zoomOut = R.anim.zoom_out;
 
     @Override
@@ -50,7 +51,7 @@ public class Bienvenido extends AppCompatActivity {
         //Duracion y Siguiente EmptyActivyty
         new Handler().postDelayed(() -> {
             Toast.makeText(this, "Ingresando", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(Bienvenido.this, UserActivity.class));
+            startActivity(new Intent(Bienvenido.this, Home.class));
             overridePendingTransition(0, zoomOut);
             finish();
         }, 4000);
@@ -72,13 +73,12 @@ public class Bienvenido extends AppCompatActivity {
                     String name = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
                     String apellido = Objects.requireNonNull(dataSnapshot.child("apellido").getValue()).toString();
                     //Actualizo las Variables
-                    nombrebienvenida.setText(name + " " + apellido);
+                    nombrebienvenida.setText(String.format("%s %s", name, apellido));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

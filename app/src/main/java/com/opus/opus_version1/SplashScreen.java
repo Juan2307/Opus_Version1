@@ -16,11 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashScreen extends AppCompatActivity {
 
     private static final int SPLASH_TIMER = 3000;
-
-    //Variables
+    //Atributos
     ImageView backgroundImage;
     TextView poweredByLine;
-
     //Animations
     Animation sideAnim, bottonAnim;
     SharedPreferences onBoardingScreen;

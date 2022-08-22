@@ -74,10 +74,8 @@ public class OnBoarding extends AppCompatActivity {
 
             dotsLayout.addView(dots[i]);
         }
-        if (dots.length > 0) {
-            dots[position].setTextColor(getResources().getColor(R.color.yellow_wtf));
-        }
-
+        if (dots.length > 0)
+            dots[position].setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {

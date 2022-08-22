@@ -31,23 +31,21 @@ import java.util.regex.Pattern;
 import dmax.dialog.SpotsDialog;
 
 public class Login extends AppCompatActivity {
-    //Objetos
+    //Variables
     TextView bienvenidoLabel, continuarLabel, nuevoUsuario, olvidasteContrasena;
     ImageView loginImageView;
     TextInputLayout usuarioTextField, contrasenaTextField;
     MaterialButton inicioSesion;
     TextInputEditText emailEditText, passwordEditText;
-    //Objeto dialog.
     AlertDialog mdialog;
-    //Objeto FireBase.
+    //Variables FireBase.
     private FirebaseAuth mAuth;
-    //Objeto Google.
+    //Variables Google.
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 0;
-    //Objeto Transicion
+    //Variables Transicion
     public static int zoomOut = R.anim.zoom_out;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +108,7 @@ public class Login extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(Login.this, UserActivity.class);
+                        Intent intent = new Intent(Login.this, Home.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -144,27 +142,31 @@ public class Login extends AppCompatActivity {
         if (email.isEmpty()) {
             emailEditText.setError("Campo Vacio");
             return;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("Correo Invalido");
             return;
-        } else {
+        }
+        else {
             emailEditText.setError(null);
         }
         //Campo Contraseña
         if (password.isEmpty()) {
             passwordEditText.setError("Campo Vacio");
             return;
-        } else if (password.length() < 8) {
+        }
+        else if (password.length() < 8) {
             passwordEditText.setError("Se Necesitan Mas De 8 Caracteres");
             return;
-        } else if (!Pattern.compile("[0-9]").matcher(password).find()) {
+        }
+        else if (!Pattern.compile("[0-9]").matcher(password).find()) {
             passwordEditText.setError("Al Menos Un Numero");
             return;
-        } else {
+        }
+        else {
             passwordEditText.setError(null);
         }
         iniciarSesion(email, password);
-
     }
 
     //🡣🡣🡣Validar Si La Cuenta Existe🡣🡣🡣
@@ -175,7 +177,7 @@ public class Login extends AppCompatActivity {
                         mdialog.show();
                         Handler handler = new Handler();
                         handler.postDelayed(() -> {
-                            startActivity(new Intent(Login.this, Bienvenido.class));
+                            startActivity(new Intent(this,Bienvenido.class));
                             overridePendingTransition(0,zoomOut);
                             finish();
                             mdialog.dismiss();

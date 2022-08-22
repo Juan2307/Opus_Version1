@@ -8,7 +8,6 @@
     <string name="slogan_name">We will help you find your way!</string>
     <string name="powered_by">Powered by taimoor sikander</string>
 
-
     <!--Login-->
     <string name="inicio_de_sesion">Inicio De Sesion</string>
     <string name="ingresa_tu_cuenta">Ingresa Tu Cuenta</string>
@@ -47,10 +46,12 @@
     <string name="let_get_started">Lets Get Started</string>
 
     <!--Perfil-->
+    <string name="perfil">PERFIL</string>
     <string name="selecciona_el_perfil_que_se_adecua_a_tus_requerimientos">Selecciona el perfil que se adecua a tus requerimientos</string>
     <string name="Usuario">Quiero adquirir servicios:Selecciona esta opción si estas interasado en adquirir nuestros servicios de profesionales</string>
     <string name="Proovedor">Quiero ofrecer servicios: Selecciona esta opción si estas interesado en ofrecer tus servicios profesionales"</string>
     <string name="continuar">continuar</string>
+    <string name="actualizar">Actualizar</string>
 
     <!--Bienvenido-->
     <string name="abejita">abejita</string>
@@ -61,20 +62,18 @@
     <string name="fortgot1">Recupera Tu Contraseña</string>
     <string name="Recuperar">RECUPERAR</string>
 
+    <!--HOME-->
+    <!--Categories-->
+    <string name="medicina">Medicina</string>
+    <string name="ingenieria">Ingenieria</string>
+    <string name="licenciatura">licenciatura</string>
+    <string name="Danza">Danza</string>
 
-    <!--Navegation Menu-->
-    <!--Titles-->
-    <string name="home">Home</string>
-    <string name="perfil">PERFIL</string>
-    <string name="configuraciones">CONFIGURACIONES</string>
-    <!--Home-->
-    <string name="categorias">categorias</string>
-    <!--Profile-->
-    <string name="EditProfile">Edit Profile</string>
-    <string name="logout">LOGOUT</string>
-    <!--Edit Profile-->
-    <string name="actualizar">Actualizar</string>
-    <!--Settings-->
-
+    <!--Titles and Descriptions-->
+    <string name="Proveedores">Proveedores</string>
+    <string name="Proveedores_description">Contrata tu Provedor lo mas Pronto</string>
+    <string name="most_viewed_locations">Most Viewed</string>
+    <string name="categories">Categories</string>
+    <string name="view_all">View All</string>
 
 </resources>

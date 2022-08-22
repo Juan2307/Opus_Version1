@@ -24,18 +24,18 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Sign_Up extends AppCompatActivity {
-    //Objetos
+    //Atributos
     TextView nuevoUsuario, bienvenidoLabel, continuarLabel;
     TextInputLayout usuarioSingUpTextField, contrasenaTextField;
     ImageView signUpImageView;
     MaterialButton inicioSesion;
     TextInputEditText documentoTextField, nameTextField, lastnameTextField, telefonoTextField, emailEditText, passwordEditText, confirmPasswordEditText;
     CheckBox terminoCondiciones;
-    //Objetos FireBase.
+    //Atributos FireBase
     FirebaseDatabase database;
     private DatabaseReference myRef;
     FirebaseAuth mAuth;
-    //Objeto Transicion
+    //Atributos Transicion
     public static int translateUp = R.anim.slide_out_up;
 
     @Override

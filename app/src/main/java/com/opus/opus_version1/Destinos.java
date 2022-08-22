@@ -1,7 +1,7 @@
 package com.opus.opus_version1;
 
 public class Destinos {
-    //Variables
+    //Atributos
     private String documento;
     private String nombre;
     private String apellido;

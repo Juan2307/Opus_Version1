@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.opus.opus_version1"
@@ -30,7 +30,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -55,6 +55,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.5'
     //Dialog Cargando
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
-
-
 }

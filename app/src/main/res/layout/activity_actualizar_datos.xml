@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ActualizarDatos">
+    <!--Logo-->
+    <ImageView
+        android:id="@+id/loginImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/opus"
+        android:src="@drawable/opus" />
+    <!--TextFiel Nombre-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nameTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_user"
+        android:fontFamily="@font/abel"
+        android:hint="@string/nombre"
+        android:textStyle="bold">
+
+    </com.google.android.material.textfield.TextInputEditText>
+    <!--TextFiel Apellido-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/apellidoTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_user"
+        android:fontFamily="@font/abel"
+        android:hint="@string/apellido"
+        android:textStyle="bold">
+
+    </com.google.android.material.textfield.TextInputEditText>
+    <!--TextFiel Telefono-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/TelefonoTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_call"
+        android:fontFamily="@font/abel"
+        android:hint="@string/telefono"
+        android:textStyle="bold">
+
+    </com.google.android.material.textfield.TextInputEditText>
+    <!--TextFiel Gmail-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/emailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/googleg_standard_color_18"
+        android:enabled="false"
+        android:fontFamily="@font/abel"
+        android:hint="@string/correo"
+        android:textStyle="bold">
+
+    </com.google.android.material.textfield.TextInputEditText>
+    <!--Button Inicio-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ActualizarDatos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/actualizar"
+        android:textColor="@color/black"
+        android:transitionName="buttonSignInTrans" />
+
+</LinearLayout>

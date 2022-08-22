@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(MainActivity.this);
             //Si Inicio Sesion Va A UserActivity
             if (user != null || account != null) {
-                Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, Home.class));
                 finish();
             }//Si No Inicio Sesion Hace La Transición Al Login
             else {

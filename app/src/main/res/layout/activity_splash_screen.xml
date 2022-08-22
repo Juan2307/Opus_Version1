@@ -10,7 +10,8 @@
         android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/splash_screen_background" />
+        android:src="@drawable/splash_screen_background"
+        android:contentDescription="@string/opus" />
 
     <TextView
         android:id="@+id/power_by_line"

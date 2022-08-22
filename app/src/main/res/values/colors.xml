@@ -7,11 +7,23 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#ffff00 </color>
-    <color name="yellow_RGB">#fcf951</color>
-    <color name="yellow_wtf">#FFE400</color>
+    <color name="colorPrimary">#FFE400</color>
     <color name="traslucido">#0000ffff </color>
     <color name="LightWhite">#f2f5f8 </color>
-    <color name="DarkGray">#272727 </color>
     <color name="gray">#808080</color>
+
+    <!-- Dashboard Colors -->
+    <!-- Body and backgound Colors -->
+    <color name="colorAccent">#272727</color>
+    <color name="home_background">#f2f5f8</color>
+    <color name="banner_background">#f1e9ce</color>
+    <color name="banner_background_light">#56f1e9ce</color>
+
+    <!-- Card Colors-->
+    <color name="card1">#d4cbe5</color>
+    <color name="card2">#7adccf</color>
+    <color name="card3">#f7c59f</color>
+    <color name="card4">#b8d7f5</color>
+
+
 </resources>
