@@ -14,12 +14,31 @@
         android:layout_gravity="center"
         android:contentDescription="@string/opus"
         android:src="@drawable/opus" />
+
+    <!--Text Field Documento-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/documento"
+        android:enabled="false">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/documentoTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="?android:attr/fingerprintAuthDrawable"
+            android:fontFamily="@font/abel"
+            android:inputType="number"
+            android:maxLength="10"
+            android:textStyle="bold"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <!--TextFiel Nombre-->
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="12dp">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/nameTextField"
@@ -28,16 +47,15 @@
         android:drawableStart="@drawable/ic_user"
         android:fontFamily="@font/abel"
         android:hint="@string/nombre"
-        android:textStyle="bold">
+        android:textStyle="bold"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputEditText>
     <!--TextFiel Apellido-->
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp" />
-
+        android:layout_marginBottom="12dp">
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/apellidoTextField"
         android:layout_width="match_parent"
@@ -45,15 +63,15 @@
         android:drawableStart="@drawable/ic_user"
         android:fontFamily="@font/abel"
         android:hint="@string/apellido"
-        android:textStyle="bold">
+        android:textStyle="bold"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputEditText>
     <!--TextFiel Telefono-->
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="12dp">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/TelefonoTextField"
@@ -62,16 +80,15 @@
         android:drawableStart="@android:drawable/ic_menu_call"
         android:fontFamily="@font/abel"
         android:hint="@string/telefono"
-        android:textStyle="bold">
+        android:textStyle="bold"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputEditText>
     <!--TextFiel Gmail-->
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp" />
-
+        android:layout_marginBottom="12dp">
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/emailTextView"
         android:layout_width="match_parent"
@@ -80,9 +97,8 @@
         android:enabled="false"
         android:fontFamily="@font/abel"
         android:hint="@string/correo"
-        android:textStyle="bold">
-
-    </com.google.android.material.textfield.TextInputEditText>
+        android:textStyle="bold"/>
+    </com.google.android.material.textfield.TextInputLayout>
     <!--Button Inicio-->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ActualizarDatos"

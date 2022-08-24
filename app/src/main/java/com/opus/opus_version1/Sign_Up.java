@@ -93,6 +93,7 @@ public class Sign_Up extends AppCompatActivity {
         String email = Objects.requireNonNull(emailEditText.getText()).toString().trim().toLowerCase();
         String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
         String confirmPassword = Objects.requireNonNull(confirmPasswordEditText.getText()).toString().trim();
+
         //Campo documento
         if (documento.isEmpty()) {
             documentoTextField.setError("¡Campo Vacio!");
@@ -107,7 +108,8 @@ public class Sign_Up extends AppCompatActivity {
         if (nombre.isEmpty()) {
             nameTextField.setError("¡Campo Vacio!");
             return;
-        } else {
+        }
+        else {
             nameTextField.setError(null);
         }
         //Campo Apellido
@@ -120,6 +122,7 @@ public class Sign_Up extends AppCompatActivity {
         //Campo Telefono
         if (telefono.isEmpty()) {
             telefonoTextField.setError("¡Campo Vacio!");
+            Toast.makeText(this, "Faltan Mas Campos Scrollea Para Abajo.", Toast.LENGTH_SHORT).show();
             return;
         } else if (telefono.length() < 10) {
             telefonoTextField.setError("Se Necesitan Mas De 10 numeros");
@@ -130,6 +133,7 @@ public class Sign_Up extends AppCompatActivity {
         //Campo Email
         if (email.isEmpty()) {
             emailEditText.setError("¡Campo Vacio!");
+            Toast.makeText(this, "Faltan Mas Campos Scrollea Para Abajo.", Toast.LENGTH_SHORT).show();
             return;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("¡Correo Invalido!");
@@ -140,6 +144,7 @@ public class Sign_Up extends AppCompatActivity {
         //Campo Password
         if (password.isEmpty()) {
             passwordEditText.setError("¡Campo Vacio!");
+            Toast.makeText(this, "Faltan Mas Campos", Toast.LENGTH_SHORT).show();
             return;
         } else if (password.length() < 8) {
             passwordEditText.setError("Se Necesitan Mas De 8 Caracteres");
@@ -152,7 +157,8 @@ public class Sign_Up extends AppCompatActivity {
         }
         //Campo ConfirmPassword
         if (confirmPassword.isEmpty()) {
-            passwordEditText.setError("¡Campo Vacio!");
+            confirmPasswordEditText.setError("¡Campo Vacio!");
+            Toast.makeText(this, "Faltan Mas Campos", Toast.LENGTH_SHORT).show();
             return;
         } else if (!confirmPassword.equals(password)) {
             confirmPasswordEditText.setError("Deben Ser Iguales");

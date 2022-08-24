@@ -11,11 +11,14 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +47,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     NavigationView navigationView;
     ImageView menuIcon;
     LinearLayout contentView;
+
+    String id;
+    DatabaseReference mDatabaseReference;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+
     public static int translateRight = R.anim.translate_right_side;
     public static int translateUp = R.anim.slide_out_up;
 
@@ -71,17 +80,17 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         naviagtionDrawer();
 
         //Objeto FireBase User
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         /*if (user != null) {
             emailTextView.setText(user.getEmail());
         }*/
 
         //Objetos FireBase
-        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
         //Obtengo el ID Ingresado
-        String id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         //Obtengo los datos de ID.
 
         /*mDatabaseReference.child("Usuarios").child(id).addValueEventListener(new ValueEventListener() {
@@ -114,15 +123,34 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             case R.id.nav_home:
                 if (drawerLayout.isDrawerVisible(GravityCompat.START))
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    break;
+                break;
             case R.id.nav_perfil:
                 startActivity(new Intent(Home.this, ActualizarDatos.class));
                 overridePendingTransition(0, translateRight);
                 finish();
                 break;
-            case R.id.nav_logout:
+            case R.id.nav_eliminar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("¿Deseas Cerrar Sesion?")
+                builder.setMessage("¿Deseas Eliminar Tu Cuenta Opus?")
+                        .setPositiveButton("Si", (dialog, which) -> {
+                            //Eliminar El Usuario
+                            user.delete().addOnCompleteListener(task1 -> {
+                                //Llamar al metodo SignOut para salir de aqui
+                                signOut();
+                            });
+                        }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+                builder.show();
+                break;
+                
+                
+            case R.id.nav_acercade:
+                Uri uri = Uri.parse("https://caesural-run.000webhostapp.com/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setMessage("¿Deseas Cerrar Sesion?")
                         .setPositiveButton("Si", (dialog, which) -> {
                             FirebaseAuth.getInstance().signOut();
                             startActivity(new Intent(this, Login.class));
@@ -130,10 +158,21 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                             super.onBackPressed();
                         })
                         .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
-                builder.show();
+                builder2.show();
                 break;
         }
         return true;
+    }
+    //Metodo Eliminar Cuenta
+    private void signOut() {
+        user.delete().addOnCompleteListener(task1 -> {
+            mDatabaseReference.child("Usuarios").child(id).removeValue();
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(Home.this, "Cuenta Eliminada", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     //Recycler Views Functions

@@ -88,7 +88,9 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/ic_menu_myplaces"
                             android:fontFamily="@font/abel"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:maxLength="30"
+                            android:inputType="textPersonName|text"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Apellido-->
@@ -105,7 +107,9 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/ic_menu_myplaces"
                             android:fontFamily="@font/abel"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:maxLength="30"
+                            android:inputType="textPersonName|text"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Telefono-->
@@ -122,10 +126,11 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/sym_action_call"
                             android:fontFamily="@font/abel"
-                            android:inputType="phone"
+                            android:inputType="number"
                             android:maxLength="10"
                             android:textStyle="bold" />
                     </com.google.android.material.textfield.TextInputLayout>
+
 
                     <!--Text Field E-mail-->
 
@@ -143,7 +148,8 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/sym_action_email"
                             android:fontFamily="@font/abel"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:inputType="textEmailAddress"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Contraseña-->

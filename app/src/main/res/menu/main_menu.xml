@@ -19,9 +19,27 @@
                     tools:ignore="HardcodedText"/>
                 <item
                     android:icon="@android:drawable/ic_lock_lock"
-                    android:id="@+id/nav_profile"
+                    android:id="@+id/nav_Contra"
                     android:title="Actualizar Contraseña"
                     tools:ignore="HardcodedText"/>
+                <item
+                    android:icon="@android:drawable/ic_lock_lock"
+                    android:id="@+id/nav_eliminar"
+                    android:title="Eliminar Cuenta"
+                    tools:ignore="HardcodedText"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="¿Quienes Somos?"  tools:ignore="HardcodedText">
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
+                    android:icon="@android:drawable/ic_dialog_info"
+                    android:id="@+id/nav_acercade"
+                    android:title="Acerca De Opus"
+                    tools:ignore="HardcodedText"/>
+
             </group>
         </menu>
     </item>
@@ -38,4 +56,7 @@
             </group>
         </menu>
     </item>
+
+
+
 </menu>

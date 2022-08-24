@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class ActualizarDatos extends AppCompatActivity {
     //Atributos
-    TextView nameTextField, apellidoTextField, telefonoTextField, emailTextView;
+    TextView documentoTextField,nameTextField, apellidoTextField, telefonoTextField, emailTextView;
     MaterialButton btnActualizarDatos;
     //Atributos FireBase.
     DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -40,6 +40,7 @@ public class ActualizarDatos extends AppCompatActivity {
         setTitle("Actualizar Datos");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //Instancio los TextField del ID
+        documentoTextField = findViewById(R.id.documentoTextField);
         nameTextField = findViewById(R.id.nameTextField);
         apellidoTextField = findViewById(R.id.apellidoTextField);
         telefonoTextField = findViewById(R.id.TelefonoTextField);
@@ -53,10 +54,12 @@ public class ActualizarDatos extends AppCompatActivity {
                 //Si el User Existe.
                 if (dataSnapshot.exists()) {
                     //Guardo el Nombre y Apellido En Las Variables.
+                    String documento = Objects.requireNonNull(dataSnapshot.child("documento").getValue()).toString();
                     String name = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
                     String apellido = Objects.requireNonNull(dataSnapshot.child("apellido").getValue()).toString();
                     String telefono = Objects.requireNonNull(dataSnapshot.child("telefono").getValue()).toString();
                     //Actualizo las Variables
+                    documentoTextField.setText(documento);
                     nameTextField.setText(name);
                     apellidoTextField.setText(apellido);
                     telefonoTextField.setText(telefono);

@@ -137,7 +137,7 @@ public class Login extends AppCompatActivity {
     public void validate() {
         //Recoger Datos Email y Password
         String email = Objects.requireNonNull(emailEditText.getText()).toString().trim().toLowerCase();
-        String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim().toLowerCase();
+        String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
         //Campo Email
         if (email.isEmpty()) {
             emailEditText.setError("Campo Vacio");

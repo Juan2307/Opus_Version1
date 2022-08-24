@@ -6,7 +6,7 @@
     <string name="opus">OPUS</string>
     <string name="de">Of</string>
     <string name="slogan_name">We will help you find your way!</string>
-    <string name="powered_by">Powered by taimoor sikander</string>
+    <string name="powered_by">Powered by ©Juan</string>
 
     <!--Login-->
     <string name="inicio_de_sesion">Inicio De Sesion</string>
@@ -24,6 +24,7 @@
     <string name="nombre">Nombre</string>
     <string name="apellido">Apellidos</string>
     <string name="telefono">Telefono</string>
+    <string name="edad">Fecha Nacimiento</string>
     <string name="contrasena1">Confirmar Password</string>
     <string name="terminos">Acepto Terminos y Condiciones</string>
     <string name="registrar">Registrar</string>
@@ -31,19 +32,19 @@
 
     <!--Boarding Screen-->
     <!--Titles-->
-    <string name="first_slide_title">Search Your Location</string>
-    <string name="second_slide_title">Make A Call</string>
-    <string name="third_slide_title">Add Missing Place</string>
-    <string name="fourth_slide_title">Sit Back Enjoy</string>
+    <string name="first_slide_title">¿Cuales Son Los Diferentes Roles?</string>
+    <string name="second_slide_title">Usuario</string>
+    <string name="third_slide_title">Proveedor</string>
+    <string name="fourth_slide_title">¿Cual Es Tu Opcion?</string>
     <!--Descriptions-->
-    <string name="first_slide_desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nam similique </string>
-    <string name="second_slide_desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem corporis repudiandae</string>
-    <string name="third_slide_desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, at tenetur soluta sunt </string>
-    <string name="fourth_slide_desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quidem fuga deleniti</string>
+    <string name="first_slide_desc">  </string>
+    <string name="second_slide_desc">Persona Que Podra Adquirir Los Servicios Ofrecidos Por Proveedores Registrados.</string>
+    <string name="third_slide_desc">Un Trabajador Independiente Que Ofrece Sus Servicios A Los Usuarios Que Lo Necesiten O Requieran.</string>
+    <string name="fourth_slide_desc">Escoge El De Tu Agrado y Comencemos A Navergar En Opus, Que Estas Esperando.</string>
     <!--Buttons-->
     <string name="skip_btn">Skip</string>
     <string name="next_btn">Next</string>
-    <string name="let_get_started">Lets Get Started</string>
+    <string name="let_get_started">Empecemos</string>
 
     <!--Perfil-->
     <string name="perfil">PERFIL</string>
