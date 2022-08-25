@@ -11,20 +11,22 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.opus.opus_version1.Fragment_Home.CategoriesAdapter;
 import com.opus.opus_version1.Fragment_Home.FeaturedAdapter;
 import com.opus.opus_version1.Fragment_Home.FeaturedHelperClass;
@@ -66,7 +68,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         mostViewedRecycler = findViewById(R.id.most_viewed_recycler);
         categoriesRecycler = findViewById(R.id.categories_recycler);
         //TextView emailTextView = findViewById(R.id.emailTextView);
-        //TextView nameTextView = findViewById(R.id.nameTextView);
+        TextView nameTextView = findViewById(R.id.app_user);
 
         featuredRecycler();
         mostViewedRecycler();
@@ -79,31 +81,21 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         contentView = findViewById(R.id.content);
         naviagtionDrawer();
 
-        //Objeto FireBase User
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        /*if (user != null) {
-            emailTextView.setText(user.getEmail());
-        }*/
-
         //Objetos FireBase
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         //Obtengo el ID Ingresado
         id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         //Obtengo los datos de ID.
-
-        /*mDatabaseReference.child("Usuarios").child(id).addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.child("Usuarios").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Si el User Existe.
                 if (dataSnapshot.exists()) {
                     //Guardo el Nombre y Apellido En Las Variables.
                     String name = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
-                    String apellido = Objects.requireNonNull(dataSnapshot.child("apellido").getValue()).toString();
-                    String telefono = Objects.requireNonNull(dataSnapshot.child("telefono").getValue()).toString();
                     //Actualizo las Variables
-                    nameTextView.setText(name + " " + apellido);
+                    nameTextView.setText("¡Hola "+name+"!");
                 }
             }
 
@@ -111,7 +103,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
     }
 
     //Navigation Drawer Functions
@@ -120,15 +112,26 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
+            //Boton Home
             case R.id.nav_home:
                 if (drawerLayout.isDrawerVisible(GravityCompat.START))
                     drawerLayout.closeDrawer(GravityCompat.START);
                 break;
+            //Boton Perfil
             case R.id.nav_perfil:
                 startActivity(new Intent(Home.this, ActualizarDatos.class));
                 overridePendingTransition(0, translateRight);
                 finish();
                 break;
+            //Boton Actualizar
+            case R.id.nav_actualizar:
+                mAuth.sendPasswordResetEmail(Objects.requireNonNull(user.getEmail())).addOnCompleteListener(task -> {
+                    Toast.makeText(this, "¡Correo Enviado!", Toast.LENGTH_SHORT).show();
+                    if (drawerLayout.isDrawerVisible(GravityCompat.START))
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                });
+                break;
+            //Boton Eliminar
             case R.id.nav_eliminar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("¿Deseas Eliminar Tu Cuenta Opus?")
@@ -141,13 +144,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                         }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
                 builder.show();
                 break;
-                
-                
+            //Boton Acerca De
             case R.id.nav_acercade:
-                Uri uri = Uri.parse("https://caesural-run.000webhostapp.com/");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                startActivity(new Intent(this, AcercaDe.class));
                 break;
+            //Boton Salir
             case R.id.nav_logout:
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
                 builder2.setMessage("¿Deseas Cerrar Sesion?")
@@ -163,6 +164,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         return true;
     }
+
     //Metodo Eliminar Cuenta
     private void signOut() {
         user.delete().addOnCompleteListener(task1 -> {

@@ -19,7 +19,7 @@
                     tools:ignore="HardcodedText"/>
                 <item
                     android:icon="@android:drawable/ic_lock_lock"
-                    android:id="@+id/nav_Contra"
+                    android:id="@+id/nav_actualizar"
                     android:title="Actualizar Contraseña"
                     tools:ignore="HardcodedText"/>
                 <item
@@ -56,7 +56,5 @@
             </group>
         </menu>
     </item>
-
-
 
 </menu>

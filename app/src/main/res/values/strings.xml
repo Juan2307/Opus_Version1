@@ -53,6 +53,7 @@
     <string name="Proovedor">Quiero ofrecer servicios: Selecciona esta opción si estas interesado en ofrecer tus servicios profesionales"</string>
     <string name="continuar">continuar</string>
     <string name="actualizar">Actualizar</string>
+    <string name="actualizarPhoto">Actualizar Foto</string>
 
     <!--Bienvenido-->
     <string name="abejita">abejita</string>

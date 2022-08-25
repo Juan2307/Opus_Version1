@@ -13,7 +13,6 @@ public class Destinos {
         super();
     }
 
-    //Constructor Con Los Parametros
     public Destinos(String documento, String nombre, String apellido, String telefono, String email) {
         this.documento = documento;
         this.nombre = nombre;
@@ -22,7 +21,6 @@ public class Destinos {
         this.email = email;
     }
 
-    //Getter and Setter
     public String getDocumento() {
         return documento;
     }

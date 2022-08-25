@@ -3,17 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ActualizarDatos">
-    <!--Logo-->
-    <ImageView
-        android:id="@+id/loginImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/opus"
-        android:src="@drawable/opus" />
+    <!--Foto De Perfil-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/opus"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp">
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/txtname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/nombre"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <!--Text Field Documento-->
     <com.google.android.material.textfield.TextInputLayout
@@ -108,5 +119,13 @@
         android:text="@string/actualizar"
         android:textColor="@color/black"
         android:transitionName="buttonSignInTrans" />
-
+    <!--Button Actualizar Foto-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ActualizarPerfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/actualizarPhoto"
+        android:textColor="@color/black"
+        android:transitionName="buttonSignInTrans" />
 </LinearLayout>

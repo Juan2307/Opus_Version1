@@ -1,11 +1,16 @@
 package com.opus.opus_version1;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +37,9 @@ import dmax.dialog.SpotsDialog;
 
 public class Login extends AppCompatActivity {
     //Variables
-    TextView bienvenidoLabel, continuarLabel, nuevoUsuario, olvidasteContrasena;
-    ImageView loginImageView;
+    LinearLayout error;
+    TextView txtSinInternet, bienvenidoLabel, continuarLabel, nuevoUsuario, olvidasteContrasena;
+    ImageView loginImageView, imgSinInternet;
     TextInputLayout usuarioTextField, contrasenaTextField;
     MaterialButton inicioSesion;
     TextInputEditText emailEditText, passwordEditText;
@@ -52,7 +58,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTitle("Login");
-        //Instancio las Transiciones del ID
+        //Instancio ID
+        error = findViewById(R.id.error);
+        imgSinInternet = findViewById(R.id.imgSinInternet);
+        txtSinInternet = findViewById(R.id.txtSinInternet);
         loginImageView = findViewById(R.id.loginImageView);
         bienvenidoLabel = findViewById(R.id.bienvenidoLabel);
         continuarLabel = findViewById(R.id.continuarlabel);
@@ -69,31 +78,42 @@ public class Login extends AppCompatActivity {
         //Instancio el Objeto de Firebase
         mAuth = FirebaseAuth.getInstance();
         //Instancio el Objeto de Dialog
-        mdialog = new SpotsDialog.Builder()
-                .setContext(this)
-                .setMessage("Espere Un Momento")
-                .setCancelable(false)
-                .build();
+        mdialog = new SpotsDialog.Builder().setContext(this).setMessage("Espere Un Momento").setCancelable(false).build();
         //Instrucciones Al Dar Click
         olvidasteContrasena.setOnClickListener(v -> {
             startActivity(new Intent(this, ForgotPassword.class));
-            overridePendingTransition(0,zoomOut);
+            overridePendingTransition(0, zoomOut);
             finish();
         });
         inicioSesion.setOnClickListener(v -> validate());
         signInButton.setOnClickListener(v -> signInWithGoogle());
         nuevoUsuario.setOnClickListener(v -> {
             startActivity(new Intent(Login.this, SplashScreen.class));
-            overridePendingTransition(0,zoomOut);
+            overridePendingTransition(0, zoomOut);
             finish();
         });
-
-        //Google
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        //Conexion
+        ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = con.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            //Google
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.web_client_id))
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        } else {
+            //Ocultamos
+            error.setVisibility(View.INVISIBLE);
+            imgSinInternet.setVisibility(View.VISIBLE);
+            txtSinInternet.setVisibility(View.VISIBLE);
+            txtSinInternet.setText("No Hay Conexion a Internet \n" +
+                    "Prueba Estos Pasos Para Volver A Conectarte:\n" +
+                    "✅Comprueba el Modem Y El Router\n" +
+                    "✅Vuelve A Conectarte A Wifi O Datos\n");
+            Toast.makeText(this, "No Se Pudo Conectar\n"
+                    + " Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+        }
     }
 
     //Dialog Of Google
@@ -115,13 +135,11 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Fallo En Iniciar Sesión", Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -135,6 +153,7 @@ public class Login extends AppCompatActivity {
 
     //🡣🡣🡣Validacion De Los Campos🡣🡣🡣
     public void validate() {
+
         //Recoger Datos Email y Password
         String email = Objects.requireNonNull(emailEditText.getText()).toString().trim().toLowerCase();
         String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
@@ -142,28 +161,23 @@ public class Login extends AppCompatActivity {
         if (email.isEmpty()) {
             emailEditText.setError("Campo Vacio");
             return;
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("Correo Invalido");
             return;
-        }
-        else {
+        } else {
             emailEditText.setError(null);
         }
         //Campo Contraseña
         if (password.isEmpty()) {
             passwordEditText.setError("Campo Vacio");
             return;
-        }
-        else if (password.length() < 8) {
+        } else if (password.length() < 8) {
             passwordEditText.setError("Se Necesitan Mas De 8 Caracteres");
             return;
-        }
-        else if (!Pattern.compile("[0-9]").matcher(password).find()) {
+        } else if (!Pattern.compile("[0-9]").matcher(password).find()) {
             passwordEditText.setError("Al Menos Un Numero");
             return;
-        }
-        else {
+        } else {
             passwordEditText.setError(null);
         }
         iniciarSesion(email, password);
@@ -177,8 +191,8 @@ public class Login extends AppCompatActivity {
                         mdialog.show();
                         Handler handler = new Handler();
                         handler.postDelayed(() -> {
-                            startActivity(new Intent(this,Bienvenido.class));
-                            overridePendingTransition(0,zoomOut);
+                            startActivity(new Intent(this, Bienvenido.class));
+                            overridePendingTransition(0, zoomOut);
                             finish();
                             mdialog.dismiss();
                             passwordEditText.setText("");

@@ -1,10 +1,16 @@
 package com.opus.opus_version1;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +28,11 @@ import dmax.dialog.SpotsDialog;
 
 public class ForgotPassword extends AppCompatActivity {
     //Atributos
+    LinearLayout error;
     MaterialButton recuperarBoton;
     TextInputEditText emailEditText;
-    TextView nuevoUsuario;
+    TextView txtSinInternet, nuevoUsuario;
+    ImageView imgSinInternet;
     //Atributo dialog.
     AlertDialog mdialog;
     //Objeto Transicion
@@ -37,25 +45,46 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         setTitle("Olvide Mi Contraseña");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         //Instancio el Objeto de Dialog
         mdialog = new SpotsDialog.Builder()
                 .setContext(this)
                 .setMessage("Espere Un Momento")
                 .setCancelable(false)
                 .build();
-        //Instancio los Botones del ID
+        //Instancio ID
+        error = findViewById(R.id.error);
+        imgSinInternet = findViewById(R.id.imgSinInternet);
+        txtSinInternet = findViewById(R.id.txtSinInternet);
         nuevoUsuario = findViewById(R.id.nuevoUsuario);
+        //Instancio los Botones del ID
         recuperarBoton = findViewById(R.id.recuperarBoton);
         //Instancio los TextField del ID
         emailEditText = findViewById(R.id.emailEditText);
-
-        //Al Dar Click Procesos
-        nuevoUsuario.setOnClickListener(v -> {
-            startActivity(new Intent(ForgotPassword.this, SplashScreen.class));
-            overridePendingTransition(0, translateRight);
-            finish();
-        });
-        recuperarBoton.setOnClickListener(v -> validate());
+        //Conexion
+        ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = con.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            //Instancio el Objeto de Dialog
+            mdialog = new SpotsDialog.Builder().setContext(this).setMessage("Espere Un Momento").setCancelable(false).build();
+            //Al Dar Click Procesos
+            nuevoUsuario.setOnClickListener(v -> {
+                startActivity(new Intent(ForgotPassword.this, SplashScreen.class));
+                overridePendingTransition(0, translateRight);
+                finish();
+            });
+            recuperarBoton.setOnClickListener(v -> validate());
+        } else {
+            //Ocultamos
+            error.setVisibility(View.INVISIBLE);
+            imgSinInternet.setVisibility(View.VISIBLE);
+            txtSinInternet.setVisibility(View.VISIBLE);
+            txtSinInternet.setText("No Hay Conexion a Internet \n" +
+                    "Prueba Estos Pasos Para Volver A Conectarte: \n" +
+                    "✅Comprueba el Modem Y El Router \n" +
+                    "✅Vuelve A Conectarte A Wifi O Datos \n");
+            Toast.makeText(this, "No Se Pudo Conectar \n" + " Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+        }
     }
 
     //Validacion De Datos

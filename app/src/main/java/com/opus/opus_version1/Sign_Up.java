@@ -1,7 +1,6 @@
 package com.opus.opus_version1;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -17,6 +16,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -77,9 +77,7 @@ public class Sign_Up extends AppCompatActivity {
         terminoCondiciones.setOnClickListener(v -> {
                     int id = v.getId();
                     if (id == R.id.idChec1) {
-                        Uri uri = Uri.parse("https://politicasopus.000webhostapp.com/");
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
+                        startActivity(new Intent(this, TerminosCondiciones.class));
                     }
                 });
     }
@@ -175,6 +173,7 @@ public class Sign_Up extends AppCompatActivity {
     }
     //🡣🡣🡣Validar Si La Cuenta Existe o La Crea🡣🡣🡣
     public void registrar(String documento, String nombre, String apellido, String telefono, String email, String password) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Destinos destinos = new Destinos(documento, nombre, apellido, telefono, email);

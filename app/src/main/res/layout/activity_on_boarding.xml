@@ -61,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:onClick="next"
-            android:paddingBottom="30dp"
             android:background="@color/traslucido"
-            android:drawableEnd="@android:drawable/ic_media_next"/>
+            android:drawableEnd="@android:drawable/ic_media_next"
+            android:onClick="next"
+            android:paddingBottom="30dp" />
 
     </RelativeLayout>
 
