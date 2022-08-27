@@ -1,46 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="176dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/LightWhite"
-    android:paddingStart="15dp"
-    tools:context=".MenuHeader"
-    tools:ignore="RtlSymmetry"
-    android:orientation="vertical">
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MenuHeader">
+
+    <!--Foto De Perfil-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/portada"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/sinfoto"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp">
+    </de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
-        android:id="@+id/menu_slogan"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/slogan_name"
-        tools:ignore="RelativeOverlap" />
+        android:paddingTop="8dp"
+        android:text="@string/nombre"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/app_name"
+        android:id="@+id/correo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/menu_slogan"
-        android:fontFamily="@font/muli_black"
-        android:text="@string/opus"
-        android:textColor="@color/black"
-        android:textSize="24sp" />
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_above="@id/app_name"
-        android:contentDescription="@string/opus"
-        android:src="@drawable/opus" />
-
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:contentDescription="@string/opus"
-        android:src="@drawable/half_work" />
-
-</RelativeLayout>
+        android:text="@string/correo"
+        android:textColor="@color/black" />
+</LinearLayout>

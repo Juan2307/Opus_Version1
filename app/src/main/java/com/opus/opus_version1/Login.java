@@ -3,14 +3,12 @@ package com.opus.opus_version1;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Patterns;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.opus.opus_version1.Internet.NetworkChangeListener;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -36,10 +35,9 @@ import java.util.regex.Pattern;
 import dmax.dialog.SpotsDialog;
 
 public class Login extends AppCompatActivity {
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     //Variables
-    LinearLayout error;
-    TextView txtSinInternet, bienvenidoLabel, continuarLabel, nuevoUsuario, olvidasteContrasena;
-    ImageView loginImageView, imgSinInternet;
+    TextView bienvenidoLabel, continuarLabel, nuevoUsuario, olvidasteContrasena;
     TextInputLayout usuarioTextField, contrasenaTextField;
     MaterialButton inicioSesion;
     TextInputEditText emailEditText, passwordEditText;
@@ -59,10 +57,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setTitle("Login");
         //Instancio ID
-        error = findViewById(R.id.error);
-        imgSinInternet = findViewById(R.id.imgSinInternet);
-        txtSinInternet = findViewById(R.id.txtSinInternet);
-        loginImageView = findViewById(R.id.loginImageView);
         bienvenidoLabel = findViewById(R.id.bienvenidoLabel);
         continuarLabel = findViewById(R.id.continuarlabel);
         usuarioTextField = findViewById(R.id.usuarioTextField);
@@ -80,40 +74,44 @@ public class Login extends AppCompatActivity {
         //Instancio el Objeto de Dialog
         mdialog = new SpotsDialog.Builder().setContext(this).setMessage("Espere Un Momento").setCancelable(false).build();
         //Instrucciones Al Dar Click
-        olvidasteContrasena.setOnClickListener(v -> {
-            startActivity(new Intent(this, ForgotPassword.class));
-            overridePendingTransition(0, zoomOut);
-            finish();
-        });
-        inicioSesion.setOnClickListener(v -> validate());
-        signInButton.setOnClickListener(v -> signInWithGoogle());
-        nuevoUsuario.setOnClickListener(v -> {
-            startActivity(new Intent(Login.this, SplashScreen.class));
-            overridePendingTransition(0, zoomOut);
-            finish();
-        });
-        //Conexion
         ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = con.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            //Google
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.web_client_id))
-                    .requestEmail()
-                    .build();
-            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        } else {
-            //Ocultamos
-            error.setVisibility(View.INVISIBLE);
-            imgSinInternet.setVisibility(View.VISIBLE);
-            txtSinInternet.setVisibility(View.VISIBLE);
-            txtSinInternet.setText("No Hay Conexion a Internet \n" +
-                    "Prueba Estos Pasos Para Volver A Conectarte:\n" +
-                    "✅Comprueba el Modem Y El Router\n" +
-                    "✅Vuelve A Conectarte A Wifi O Datos\n");
-            Toast.makeText(this, "No Se Pudo Conectar\n"
-                    + " Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
-        }
+        olvidasteContrasena.setOnClickListener(v -> {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                startActivity(new Intent(this, ForgotPassword.class));
+                overridePendingTransition(0, zoomOut);
+                finish();
+            } else
+                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+        });
+        inicioSesion.setOnClickListener(v -> {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                validate();
+            } else
+                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+        });
+        signInButton.setOnClickListener(v -> {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                signInWithGoogle();
+            } else
+                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+        });
+        nuevoUsuario.setOnClickListener(v -> {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                startActivity(new Intent(Login.this, SplashScreen.class));
+                overridePendingTransition(0, zoomOut);
+                finish();
+            } else
+                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+        });
+
+        //Google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
     }
 
     //Dialog Of Google
@@ -202,6 +200,20 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Usuario y/o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    //Internet
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
     //🡣🡣🡣Proceso Al Dar Click a Retroceder🡣🡣🡣

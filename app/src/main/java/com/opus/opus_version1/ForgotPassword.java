@@ -3,14 +3,12 @@ package com.opus.opus_version1;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,21 +19,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.opus.opus_version1.Internet.NetworkChangeListener;
 
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
 public class ForgotPassword extends AppCompatActivity {
-    //Atributos
-    LinearLayout error;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    //Variable
     MaterialButton recuperarBoton;
     TextInputEditText emailEditText;
-    TextView txtSinInternet, nuevoUsuario;
-    ImageView imgSinInternet;
-    //Atributo dialog.
+    TextView nuevoUsuario;
+    //Variable dialog.
     AlertDialog mdialog;
-    //Objeto Transicion
+    //Variable Transicion
     public static int translateRight = R.anim.translate_right_side;
     public static int zoomOut = R.anim.zoom_out;
 
@@ -52,10 +50,9 @@ public class ForgotPassword extends AppCompatActivity {
                 .setMessage("Espere Un Momento")
                 .setCancelable(false)
                 .build();
+        //Instancio el Objeto de Dialog
+        mdialog = new SpotsDialog.Builder().setContext(this).setMessage("Espere Un Momento").setCancelable(false).build();
         //Instancio ID
-        error = findViewById(R.id.error);
-        imgSinInternet = findViewById(R.id.imgSinInternet);
-        txtSinInternet = findViewById(R.id.txtSinInternet);
         nuevoUsuario = findViewById(R.id.nuevoUsuario);
         //Instancio los Botones del ID
         recuperarBoton = findViewById(R.id.recuperarBoton);
@@ -64,27 +61,21 @@ public class ForgotPassword extends AppCompatActivity {
         //Conexion
         ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = con.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            //Instancio el Objeto de Dialog
-            mdialog = new SpotsDialog.Builder().setContext(this).setMessage("Espere Un Momento").setCancelable(false).build();
-            //Al Dar Click Procesos
-            nuevoUsuario.setOnClickListener(v -> {
+        //Al Dar Click Procesos
+        nuevoUsuario.setOnClickListener(v -> {
+            if (networkInfo != null && networkInfo.isConnected()) {
                 startActivity(new Intent(ForgotPassword.this, SplashScreen.class));
                 overridePendingTransition(0, translateRight);
                 finish();
-            });
-            recuperarBoton.setOnClickListener(v -> validate());
-        } else {
-            //Ocultamos
-            error.setVisibility(View.INVISIBLE);
-            imgSinInternet.setVisibility(View.VISIBLE);
-            txtSinInternet.setVisibility(View.VISIBLE);
-            txtSinInternet.setText("No Hay Conexion a Internet \n" +
-                    "Prueba Estos Pasos Para Volver A Conectarte: \n" +
-                    "✅Comprueba el Modem Y El Router \n" +
-                    "✅Vuelve A Conectarte A Wifi O Datos \n");
-            Toast.makeText(this, "No Se Pudo Conectar \n" + " Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
-        }
+            } else
+                Toast.makeText(ForgotPassword.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+        });
+        recuperarBoton.setOnClickListener(v -> {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                validate();
+            } else
+                Toast.makeText(ForgotPassword.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+        });
     }
 
     //Validacion De Datos
@@ -116,15 +107,7 @@ public class ForgotPassword extends AppCompatActivity {
         });
     }
 
-    //Dar Click Hacia Atras Ir Al Login
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(ForgotPassword.this, Login.class));
-        overridePendingTransition(0, zoomOut);
-        finish();
-    }
-
+    //Flecha Atras
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -134,5 +117,28 @@ public class ForgotPassword extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Internet
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
+    }
+
+    //Dar Click Hacia Atras
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ForgotPassword.this, Login.class));
+        overridePendingTransition(0, zoomOut);
+        finish();
     }
 }

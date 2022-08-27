@@ -1,17 +1,30 @@
 package com.opus.opus_version1;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,12 +46,21 @@ import com.opus.opus_version1.Fragment_Home.FeaturedHelperClass;
 import com.opus.opus_version1.Fragment_Home.MostViewedAdpater;
 import com.opus.opus_version1.Fragment_Home.MostViewedHelperClass;
 import com.opus.opus_version1.Fragment_Home.categoriesHelperClasses;
+import com.opus.opus_version1.Internet.NetworkChangeListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int PERMISSION_STORAGE_CODE = 1000;
+    public static final String URL_DESCARGA = "https://firebasestorage.googleapis.com/v0/b/loginopus-23248.appspot.com/o/Mockups%2Fmockups.pdf?alt=media&token=bc604e47-9ba8-494d-b1c1-9491ba3537d5";
+    public static final String DESCRIPCION_PDF = "https://caesural-run.000webhostapp.com/";
+    public static final String NOMBRE_PDF = "Mockups.pdf";
+    //Conexion
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    ConnectivityManager con;
+    NetworkInfo networkInfo;
     //Atributos
     static final float END_SCALE = 0.7f;
     RecyclerView featuredRecycler, mostViewedRecycler, categoriesRecycler;
@@ -49,12 +71,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     NavigationView navigationView;
     ImageView menuIcon;
     LinearLayout contentView;
-
+    //Atributos Firebase
     String id;
     DatabaseReference mDatabaseReference;
     FirebaseAuth mAuth;
     FirebaseUser user;
-
+    //Atributos Animaciones
     public static int translateRight = R.anim.translate_right_side;
     public static int translateUp = R.anim.slide_out_up;
 
@@ -62,12 +84,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        setTitle("Home");
+        //Conexion
+        con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = con.getActiveNetworkInfo();
         //Hooks
         featuredRecycler = findViewById(R.id.featured_recycler);
         mostViewedRecycler = findViewById(R.id.most_viewed_recycler);
         categoriesRecycler = findViewById(R.id.categories_recycler);
-        //TextView emailTextView = findViewById(R.id.emailTextView);
         TextView nameTextView = findViewById(R.id.app_user);
 
         featuredRecycler();
@@ -79,9 +103,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView = findViewById(R.id.navigation_view);
         menuIcon = findViewById(R.id.menu_icon);
         contentView = findViewById(R.id.content);
+
         naviagtionDrawer();
 
+
         //Objetos FireBase
+        user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         //Obtengo el ID Ingresado
@@ -95,7 +122,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     //Guardo el Nombre y Apellido En Las Variables.
                     String name = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
                     //Actualizo las Variables
-                    nameTextView.setText("¡Hola "+name+"!");
+                    nameTextView.setText("¡Hola " + name + "!");
                 }
             }
 
@@ -117,37 +144,77 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if (drawerLayout.isDrawerVisible(GravityCompat.START))
                     drawerLayout.closeDrawer(GravityCompat.START);
                 break;
+
+
             //Boton Perfil
             case R.id.nav_perfil:
-                startActivity(new Intent(Home.this, ActualizarDatos.class));
-                overridePendingTransition(0, translateRight);
-                finish();
+
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    startActivity(new Intent(Home.this, ActualizarDatos.class));
+                    overridePendingTransition(0, translateRight);
+                    finish();
+                } else {
+                    Toast.makeText(this, "No Se Pudo Conectar\n Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+                }
                 break;
+
+
             //Boton Actualizar
             case R.id.nav_actualizar:
-                mAuth.sendPasswordResetEmail(Objects.requireNonNull(user.getEmail())).addOnCompleteListener(task -> {
-                    Toast.makeText(this, "¡Correo Enviado!", Toast.LENGTH_SHORT).show();
-                    if (drawerLayout.isDrawerVisible(GravityCompat.START))
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                });
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    mAuth.sendPasswordResetEmail(Objects.requireNonNull(user.getEmail())).addOnCompleteListener(task -> {
+                        Toast.makeText(this, "¡Correo Enviado!", Toast.LENGTH_SHORT).show();
+                        if (drawerLayout.isDrawerVisible(GravityCompat.START))
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                    });
+                } else {
+                    Toast.makeText(this, "No Se Pudo Conectar\n Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+                }
+
+
                 break;
+
+
             //Boton Eliminar
-            case R.id.nav_eliminar:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("¿Deseas Eliminar Tu Cuenta Opus?")
-                        .setPositiveButton("Si", (dialog, which) -> {
-                            //Eliminar El Usuario
-                            user.delete().addOnCompleteListener(task1 -> {
-                                //Llamar al metodo SignOut para salir de aqui
-                                signOut();
-                            });
-                        }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
-                builder.show();
+            case R.id.nav_eliminar://Conexion
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("¿Deseas Eliminar Tu Cuenta Opus?")
+                            .setPositiveButton("Si", (dialog, which) -> {
+                                if (networkInfo != null && networkInfo.isConnected()) {
+                                    //Eliminar El Usuario
+                                    user.delete().addOnCompleteListener(task1 -> {
+                                        //Llamar al metodo SignOut para salir de aqui
+                                        signOut();
+                                    });
+                                } else {
+                                    Toast.makeText(this, "No Se Pudo Conectar\n Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+                                }
+                            }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+                    builder.show();
+                } else {
+                    Toast.makeText(this, "No Se Pudo Conectar\n Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+                }
                 break;
+
+
             //Boton Acerca De
             case R.id.nav_acercade:
                 startActivity(new Intent(this, AcercaDe.class));
                 break;
+
+
+            //Boton Mockups
+            case R.id.nav_mockups:
+                //Conexion
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    descargar();
+                } else {
+                    Toast.makeText(this, "No Se Pudo Conectar\n Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
+                }
+                break;
+
+
             //Boton Salir
             case R.id.nav_logout:
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
@@ -163,6 +230,46 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
         }
         return true;
+    }
+
+    private void descargar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                requestPermissions(permissions, PERMISSION_STORAGE_CODE);
+            } else {
+                startDownloading();
+            }
+        } else {
+
+        }
+    }
+
+    private void startDownloading() {
+        String url = URL_DESCARGA;
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setTitle("Opus");
+        request.setDescription(DESCRIPCION_PDF);
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, NOMBRE_PDF);
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_STORAGE_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startDownloading();
+                } else {
+                    Toast.makeText(this, "Permitir Porfavor Para Continuar.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     //Metodo Eliminar Cuenta
@@ -268,6 +375,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         categoriesRecycler.setAdapter(adapter);
 
+    }
+
+    //Internet
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
     //🡣🡣🡣Proceso Al Dar Click a Retroceder🡣🡣🡣

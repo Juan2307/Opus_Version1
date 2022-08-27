@@ -1,22 +1,12 @@
 package com.opus.opus_version1;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,9 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -41,14 +29,13 @@ public class ActualizarDatos extends AppCompatActivity {
     CircleImageView profileImageView;
     //Atributos De Transicion
     public static int zoomOut = R.anim.zoom_out;
+    public static int translateRight = R.anim.translate_right_side;
     //Atributos FireBase.
     DatabaseReference databaseReference;
-    DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     String id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
     FirebaseUser user;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +60,7 @@ public class ActualizarDatos extends AppCompatActivity {
         //Objeto FireBase User
         user = FirebaseAuth.getInstance().getCurrentUser();
         //Obtengo los datos de ID.
-        mDatabaseReference.child("Usuarios").child(id).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Si el User Existe.
@@ -102,7 +89,10 @@ public class ActualizarDatos extends AppCompatActivity {
         });
         //Instrucciones Al Dar Click
         btnActualizarDatos.setOnClickListener(v -> validate());
-        ActualizarPerfil.setOnClickListener(v -> startActivity(new Intent(this, ActualizarFoto.class)));
+        ActualizarPerfil.setOnClickListener(view -> {
+            startActivity(new Intent(ActualizarDatos.this, ActualizarFoto.class));
+            overridePendingTransition(0, translateRight);
+        });
     }
 
     private void getUserinfo() {
@@ -110,8 +100,9 @@ public class ActualizarDatos extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 if(datasnapshot.exists() && datasnapshot.getChildrenCount()>0){
-                    String name = datasnapshot.child("nombre").getValue().toString();
-                    txtname.setText(name);
+                    String name = Objects.requireNonNull(datasnapshot.child("nombre").getValue()).toString();
+                    String apellido = Objects.requireNonNull(datasnapshot.child("apellido").getValue()).toString();
+                    txtname.setText(name +" "+ apellido);
 
                     if (datasnapshot.hasChild("image")){
                         String image = Objects.requireNonNull(datasnapshot.child("image").getValue()).toString();
@@ -164,7 +155,7 @@ public class ActualizarDatos extends AppCompatActivity {
         Data.put("nombre", name);
         Data.put("apellido", apellido);
         Data.put("telefono", telefono);
-        mDatabaseReference.child("Usuarios").child(id).updateChildren(Data).
+        databaseReference.child(id).updateChildren(Data).
                 addOnSuccessListener(unused -> Toast.makeText(this, "Datos Actualizados", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(this, "Hubo Un Error Al Actualizar Los Datos", Toast.LENGTH_SHORT).show());
     }

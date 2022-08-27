@@ -56,7 +56,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <!--Text Field Documento-->
                     <com.google.android.material.textfield.TextInputLayout
@@ -64,6 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/documento">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/documentoTextField"
                             android:layout_width="match_parent"
@@ -72,7 +73,7 @@
                             android:fontFamily="@font/abel"
                             android:inputType="number"
                             android:maxLength="10"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </com.google.android.material.textfield.TextInputLayout>
                     <!--Text Field Nombre-->
 
@@ -88,9 +89,9 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/ic_menu_myplaces"
                             android:fontFamily="@font/abel"
-                            android:textStyle="bold"
+                            android:inputType="textPersonName|text"
                             android:maxLength="30"
-                            android:inputType="textPersonName|text"/>
+                            android:textStyle="bold" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Apellido-->
@@ -107,9 +108,41 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/ic_menu_myplaces"
                             android:fontFamily="@font/abel"
-                            android:textStyle="bold"
+                            android:inputType="textPersonName|text"
                             android:maxLength="30"
-                            android:inputType="textPersonName|text"/>
+                            android:textStyle="bold" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <!--DatePicker Edad-->
+                    <EditText
+                        android:id="@+id/et_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:drawableStart="@android:drawable/ic_menu_today"
+                        android:hint="Birth Date"
+                        android:paddingStart="12dp"
+                        android:textSize="17sp"
+                        tools:ignore="Autofill,HardcodedText,RtlSymmetry,TextFields" />
+
+                    <!--Text Field Edad-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edad">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edadTextField"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:fontFamily="@font/abel"
+                            android:textStyle="bold"
+                            android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Telefono-->
@@ -148,8 +181,8 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@android:drawable/sym_action_email"
                             android:fontFamily="@font/abel"
-                            android:textStyle="bold"
-                            android:inputType="textEmailAddress"/>
+                            android:inputType="textEmailAddress"
+                            android:textStyle="bold" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Contraseña-->
@@ -165,33 +198,54 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/passwordEditText"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="65dp"
                             android:drawableStart="@android:drawable/ic_lock_idle_lock"
                             android:fontFamily="@font/abel"
                             android:inputType="textPassword"
                             android:textStyle="bold" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Text Field Confirmar Contraseña-->
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/confirmarContrasenaTextField"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/contrasena1"
+                        android:transitionName="passwordInputTextTrans"
                         app:passwordToggleEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/confirmPasswordEditText"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="65dp"
                             android:drawableStart="@android:drawable/ic_lock_idle_lock"
                             android:fontFamily="@font/abel"
                             android:inputType="textPassword"
                             android:textStyle="bold" />
+
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="20dp"
+                            android:drawableStart="@drawable/job"
+                            android:hint="@string/prefesiones"
+                            android:inputType="none"
+                            android:textSize="13sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 

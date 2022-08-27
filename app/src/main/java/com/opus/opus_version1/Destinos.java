@@ -5,20 +5,24 @@ public class Destinos {
     private String documento;
     private String nombre;
     private String apellido;
+    private String fechaNacimiento;
     private String telefono;
     private String email;
+    private String profesionesDeInterés;
 
     //Constructor Vacio
     public Destinos() {
         super();
     }
 
-    public Destinos(String documento, String nombre, String apellido, String telefono, String email) {
+    public Destinos(String documento, String nombre, String apellido, String fechaNacimiento, String telefono, String email, String profesionesDeInterés) {
         this.documento = documento;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.email = email;
+        this.profesionesDeInterés = profesionesDeInterés;
     }
 
     public String getDocumento() {
@@ -45,6 +49,14 @@ public class Destinos {
         this.apellido = apellido;
     }
 
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     public String getTelefono() {
         return telefono;
     }
@@ -59,5 +71,13 @@ public class Destinos {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getProfesionesDeInterés() {
+        return profesionesDeInterés;
+    }
+
+    public void setProfesionesDeInterés(String profesionesDeInterés) {
+        this.profesionesDeInterés = profesionesDeInterés;
     }
 }

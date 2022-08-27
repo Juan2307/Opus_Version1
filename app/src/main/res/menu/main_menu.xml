@@ -1,57 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <group android:checkableBehavior="single">
         <item
-            android:icon="@drawable/ic_home"
             android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
             android:title="Home"
             tools:ignore="HardcodedText" />
     </group>
 
-    <item android:title="Profile" tools:ignore="HardcodedText">
+    <item
+        android:title="Profile"
+        tools:ignore="HardcodedText">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:icon="@drawable/ic_profile"
                     android:id="@+id/nav_perfil"
+                    android:icon="@drawable/ic_profile"
                     android:title="Actualizar Datos"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
                 <item
-                    android:icon="@android:drawable/ic_lock_lock"
                     android:id="@+id/nav_actualizar"
-                    android:title="Actualizar Contraseña"
-                    tools:ignore="HardcodedText"/>
-                <item
                     android:icon="@android:drawable/ic_lock_lock"
+                    android:title="Actualizar Contraseña"
+                    tools:ignore="HardcodedText" />
+                <item
                     android:id="@+id/nav_eliminar"
+                    android:icon="@android:drawable/ic_lock_lock"
                     android:title="Eliminar Cuenta"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
             </group>
         </menu>
     </item>
 
-    <item android:title="¿Quienes Somos?"  tools:ignore="HardcodedText">
+    <item
+        android:title="¿Quienes Somos?"
+        tools:ignore="HardcodedText">
         <menu>
             <group android:checkableBehavior="none">
                 <item
-                    android:icon="@android:drawable/ic_dialog_info"
                     android:id="@+id/nav_acercade"
+                    android:icon="@android:drawable/ic_dialog_info"
                     android:title="Acerca De Opus"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
             </group>
         </menu>
     </item>
 
-    <item android:title="Salir"  tools:ignore="HardcodedText">
+    <item
+        android:title="Prototipos"
+        tools:ignore="HardcodedText">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_wireframe"
+                    android:icon="@drawable/wireframe"
+                    android:title="Wireframe"
+                    tools:ignore="HardcodedText" />
+
+                <item
+                    android:id="@+id/nav_mockups"
+                    android:icon="@drawable/mockup"
+                    android:title="Mockups"
+                    tools:ignore="HardcodedText" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:title="Soporte"
+        tools:ignore="HardcodedText">
         <menu>
             <group android:checkableBehavior="none">
                 <item
-                    android:icon="@drawable/logout"
+                    android:id="@+id/nav_ayuda"
+                    android:icon="@android:drawable/ic_menu_help"
+                    android:title="Ayuda"
+                    tools:ignore="HardcodedText" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:title="Salir"
+        tools:ignore="HardcodedText">
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
                     android:id="@+id/nav_logout"
+                    android:icon="@drawable/logout"
                     android:title="Logout"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
             </group>
         </menu>

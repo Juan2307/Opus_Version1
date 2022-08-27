@@ -5,7 +5,6 @@
     <!--Splash Screen-->
     <string name="opus">OPUS</string>
     <string name="de">Of</string>
-    <string name="slogan_name">We will help you find your way!</string>
     <string name="powered_by">Powered by ©Juan</string>
 
     <!--Login-->
@@ -26,9 +25,19 @@
     <string name="telefono">Telefono</string>
     <string name="edad">Fecha Nacimiento</string>
     <string name="contrasena1">Confirmar Password</string>
+    <string name="prefesiones">Selectone or several professions to hire</string>
+
     <string name="terminos">Acepto Terminos y Condiciones</string>
     <string name="registrar">Registrar</string>
     <string name="text0">¿Ya Tienes Cuenta? Inicia Sesion!</string>
+
+    <string-array name="profesiones">
+        <item>Oficios Varios</item>
+        <item>Desarrollador Back-End</item>
+        <item>Desarrollador Front-End</item>
+        <item>Desarrollador Full Stack</item>
+        <item>Ingeniero En Sistemas</item>
+    </string-array>
 
     <!--Boarding Screen-->
     <!--Titles-->
