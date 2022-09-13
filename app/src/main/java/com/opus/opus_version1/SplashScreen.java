@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static final int SPLASH_TIMER = 3000;
     //Atributos
     ImageView backgroundImage;
     TextView poweredByLine;
@@ -55,18 +54,12 @@ public class SplashScreen extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), OnBoarding.class));
             overridePendingTransition(0, translateUp);
             finish();
-        }, SPLASH_TIMER);
+        }, 4000);
     }
-    //🡣🡣🡣Proceso Al Dar Click a Retroceder🡣🡣🡣
+
+    //🡣🡣🡣Proceso Al Dar Click a Retroceder Bloquear🡣🡣🡣
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Deseas Volver Al Login")
-                .setPositiveButton("Si", (dialog, which) -> {
-                    startActivity(new Intent(this, Login.class));
-                    overridePendingTransition(0, translateUp);
-                    finish();
-                }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
-        builder.show();
+        //super.onBackPressed();
     }
 }

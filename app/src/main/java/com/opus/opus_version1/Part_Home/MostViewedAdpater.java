@@ -1,4 +1,4 @@
-package com.opus.opus_version1.Fragment_Home;
+package com.opus.opus_version1.Part_Home;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +46,7 @@ public class MostViewedAdpater extends RecyclerView.Adapter<MostViewedAdpater.Mo
     public static class MostViewedViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        TextView textView,desc;
+        TextView textView, desc;
 
         public MostViewedViewHolder(@NonNull View itemView) {
             super(itemView);

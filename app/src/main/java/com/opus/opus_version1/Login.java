@@ -1,11 +1,9 @@
 package com.opus.opus_version1;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Patterns;
@@ -23,11 +21,10 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.opus.opus_version1.Internet.NetworkChangeListener;
+import com.opus.opus_version1.Internet.Internet;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -35,10 +32,8 @@ import java.util.regex.Pattern;
 import dmax.dialog.SpotsDialog;
 
 public class Login extends AppCompatActivity {
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     //Variables
-    TextView bienvenidoLabel, continuarLabel, nuevoUsuario, olvidasteContrasena;
-    TextInputLayout usuarioTextField, contrasenaTextField;
+    TextView nuevoUsuario, olvidasteContrasena;
     MaterialButton inicioSesion;
     TextInputEditText emailEditText, passwordEditText;
     AlertDialog mdialog;
@@ -56,11 +51,6 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTitle("Login");
-        //Instancio ID
-        bienvenidoLabel = findViewById(R.id.bienvenidoLabel);
-        continuarLabel = findViewById(R.id.continuarlabel);
-        usuarioTextField = findViewById(R.id.usuarioTextField);
-        contrasenaTextField = findViewById(R.id.contrasenaTextField);
         //Instancio los Botones del ID
         inicioSesion = findViewById(R.id.inicioSesion);
         nuevoUsuario = findViewById(R.id.nuevoUsuario);
@@ -74,35 +64,29 @@ public class Login extends AppCompatActivity {
         //Instancio el Objeto de Dialog
         mdialog = new SpotsDialog.Builder().setContext(this).setMessage("Espere Un Momento").setCancelable(false).build();
         //Instrucciones Al Dar Click
-        ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = con.getActiveNetworkInfo();
         olvidasteContrasena.setOnClickListener(v -> {
-            if (networkInfo != null && networkInfo.isConnected()) {
                 startActivity(new Intent(this, ForgotPassword.class));
                 overridePendingTransition(0, zoomOut);
                 finish();
-            } else
-                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
         });
         inicioSesion.setOnClickListener(v -> {
-            if (networkInfo != null && networkInfo.isConnected()) {
+            if (Internet.isOnline(this)) {
                 validate();
-            } else
-                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(Login.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
         });
         signInButton.setOnClickListener(v -> {
-            if (networkInfo != null && networkInfo.isConnected()) {
+            if (Internet.isOnline(this)) {
                 signInWithGoogle();
-            } else
-                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(Login.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
         });
         nuevoUsuario.setOnClickListener(v -> {
-            if (networkInfo != null && networkInfo.isConnected()) {
                 startActivity(new Intent(Login.this, SplashScreen.class));
                 overridePendingTransition(0, zoomOut);
                 finish();
-            } else
-                Toast.makeText(Login.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
         });
 
         //Google
@@ -200,20 +184,6 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Usuario y/o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    //Internet
-    @Override
-    protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(networkChangeListener);
-        super.onStop();
     }
 
     //🡣🡣🡣Proceso Al Dar Click a Retroceder🡣🡣🡣

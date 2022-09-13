@@ -1,4 +1,4 @@
-package com.opus.opus_version1.Fragment_Home;
+package com.opus.opus_version1.Part_Home;
 
 import android.view.LayoutInflater;
 import android.view.View;

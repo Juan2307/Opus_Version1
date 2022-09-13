@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             //Si Inicio Sesion Va A UserActivity
             if (user != null || account != null) {
                 startActivity(new Intent(this, Home.class));
-                finish();
             }//Si No Inicio Sesion Hace La Transición Al Login
             else {
                 Intent intent = new Intent(this, Login.class);
@@ -56,9 +55,15 @@ public class MainActivity extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, pairs);
                 startActivity(intent, options.toBundle());
-                finish();
             }
+            finish();
         }, 4000);
 
+    }
+
+    //🡣🡣🡣Proceso Al Dar Click a Retroceder Bloquear🡣🡣🡣
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -12,8 +13,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import java.util.Objects;
 
 public class OnBoarding extends AppCompatActivity {
 
@@ -30,6 +34,7 @@ public class OnBoarding extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_on_boarding);
         setTitle("OnBoarding");
@@ -107,6 +112,21 @@ public class OnBoarding extends AppCompatActivity {
 
         }
     };
+
+    //Flecha Atras
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Deseas Volver Al Login")
+                .setPositiveButton("Si", (dialog, which) -> {
+                    startActivity(new Intent(this, Login.class));
+                    overridePendingTransition(0, translateUp);
+                    finish();
+                }).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+        builder.show();
+        return super.onOptionsItemSelected(item);
+    }
+
 
     //🡣🡣🡣Proceso Al Dar Click a Retroceder🡣🡣🡣
     @Override

@@ -82,4 +82,10 @@ public class Bienvenido extends AppCompatActivity {
             }
         });
     }
+
+    //🡣🡣🡣Proceso Al Dar Click a Retroceder Bloquear🡣🡣🡣
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 }

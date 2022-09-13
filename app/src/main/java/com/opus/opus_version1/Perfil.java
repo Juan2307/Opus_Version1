@@ -1,22 +1,26 @@
 package com.opus.opus_version1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.opus.opus_version1.Internet.NetworkChangeListener;
+import com.opus.opus_version1.Internet.Internet;
+
+import java.util.Objects;
 
 public class Perfil extends AppCompatActivity {
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+
+    //Atributo Abeja
+    ImageView gifBee;
     //Atributos
-    SwitchMaterial Usuario, Proovedor;
+    SwitchMaterial CheckUser, Checkprovider;
     //Atributos De Transicion
     public static int zoomOut = R.anim.zoom_out;
     public static int translateRight = R.anim.translate_right_side;
@@ -26,40 +30,40 @@ public class Perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         setTitle("Perfiles");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        //Asignacion de ID Abeja
+        gifBee = findViewById(R.id.abeja);
+        Glide
+                .with(Perfil.this)
+                .load(R.drawable.bee_floating)
+                .centerCrop()
+                .into(gifBee);
 
         //Instancio los TextField del ID
-        Usuario = findViewById(R.id.Usuario);
-        Proovedor = findViewById(R.id.Proovedor);
-        //Conexion
-        ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = con.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            //Instrucciones Al Dar Click
-            Usuario.setOnClickListener(v -> {
-                int id = v.getId();
-                if (id == R.id.Usuario) {
+        CheckUser = findViewById(R.id.CheckUsuario);
+        Checkprovider = findViewById(R.id.CheckProovedor);
+        //Instrucciones Al Dar Click
+        CheckUser.setOnClickListener(v -> {
+            if (Internet.isOnline(this)) {
+                if (CheckUser.isChecked()) {
                     startActivity(new Intent(Perfil.this, Sign_Up.class));
                     overridePendingTransition(0, translateRight);
                     finish();
                 }
-            });
-        } else {
-            Toast.makeText(this, "No Se Pudo Conectar \n" + " Verifique El Acceso A Internet e Intente Nuevamente.", Toast.LENGTH_LONG).show();
-        }
+            } else {
+                Toast.makeText(Perfil.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    //Internet
+    //Flecha Atras
     @Override
-    protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(networkChangeListener);
-        super.onStop();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            startActivity(new Intent(Perfil.this, OnBoarding.class));
+            overridePendingTransition(0, zoomOut);
+            finish();
+        return super.onOptionsItemSelected(item);
     }
 
     //🡣🡣🡣Proceso Al Dar Click a Retroceder🡣🡣🡣

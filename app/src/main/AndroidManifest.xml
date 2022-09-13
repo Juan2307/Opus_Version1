@@ -25,7 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".AcercaDe"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".ActualizarDatos"
             android:exported="false" />
@@ -37,16 +37,16 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".OnBoarding"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".Bienvenido"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Sign_Up"
             android:exported="false" />

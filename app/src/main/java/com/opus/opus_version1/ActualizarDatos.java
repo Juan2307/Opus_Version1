@@ -1,12 +1,14 @@
 package com.opus.opus_version1;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,7 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opus.opus_version1.Internet.Internet;
 import com.squareup.picasso.Picasso;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,7 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActualizarDatos extends AppCompatActivity {
     //Atributos
-    TextView txtname,documentoTextField, nameTextField, apellidoTextField, telefonoTextField, emailTextView;
+    TextView txtname, documentoTextField, nameTextField, apellidoTextField, cumpleaniosTextFiel, edadTextField, telefonoTextField, emailTextView;
     MaterialButton btnActualizarDatos, ActualizarPerfil;
     CircleImageView profileImageView;
     //Atributos De Transicion
@@ -35,7 +39,7 @@ public class ActualizarDatos extends AppCompatActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     String id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
     FirebaseUser user;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,8 @@ public class ActualizarDatos extends AppCompatActivity {
         documentoTextField = findViewById(R.id.documentoTextField);
         nameTextField = findViewById(R.id.nameTextField);
         apellidoTextField = findViewById(R.id.apellidoTextField);
+        cumpleaniosTextFiel = findViewById(R.id.fechaNacimientoTextField);
+        edadTextField = findViewById(R.id.edadTextField);
         telefonoTextField = findViewById(R.id.TelefonoTextField);
         emailTextView = findViewById(R.id.emailTextView);
         //Instancio los Botones del ID
@@ -62,22 +68,29 @@ public class ActualizarDatos extends AppCompatActivity {
         //Obtengo los datos de ID.
         databaseReference.child(id).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//Objeto datos DATASNAPSHOT
+                // contendrá valores de los datos exactos a los que se hace referencia.
                 //Si el User Existe.
                 if (dataSnapshot.exists()) {
-                    //Guardo el Nombre y Apellido En Las Variables.
+                    //Guardo variables
                     String documento = Objects.requireNonNull(dataSnapshot.child("documento").getValue()).toString();
                     String name = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
                     String apellido = Objects.requireNonNull(dataSnapshot.child("apellido").getValue()).toString();
+                    String FechaDeNacimiento = Objects.requireNonNull(dataSnapshot.child("fechaNacimiento").getValue()).toString();
+                    String edad = Objects.requireNonNull(dataSnapshot.child("edad").getValue()).toString();
                     String telefono = Objects.requireNonNull(dataSnapshot.child("telefono").getValue()).toString();
+
                     //Actualizo las Variables
                     documentoTextField.setText(documento);
                     nameTextField.setText(name);
                     apellidoTextField.setText(apellido);
+                    cumpleaniosTextFiel.setText(FechaDeNacimiento);
+                    edadTextField.setText(edad);
                     telefonoTextField.setText(telefono);
                 }
                 //Objeto FireBase User
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //Distinto a nulo
                 if (user != null) {
                     emailTextView.setText(user.getEmail());
                 }
@@ -88,10 +101,17 @@ public class ActualizarDatos extends AppCompatActivity {
             }
         });
         //Instrucciones Al Dar Click
-        btnActualizarDatos.setOnClickListener(v -> validate());
+        btnActualizarDatos.setOnClickListener(v -> {
+            if (Internet.isOnline(this)) {
+                validate();
+            } else {
+                Toast.makeText(ActualizarDatos.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
+        });
         ActualizarPerfil.setOnClickListener(view -> {
             startActivity(new Intent(ActualizarDatos.this, ActualizarFoto.class));
             overridePendingTransition(0, translateRight);
+            finish();
         });
     }
 
@@ -99,12 +119,12 @@ public class ActualizarDatos extends AppCompatActivity {
         databaseReference.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                if(datasnapshot.exists() && datasnapshot.getChildrenCount()>0){
+                if (datasnapshot.exists() && datasnapshot.getChildrenCount() > 0) {
                     String name = Objects.requireNonNull(datasnapshot.child("nombre").getValue()).toString();
                     String apellido = Objects.requireNonNull(datasnapshot.child("apellido").getValue()).toString();
-                    txtname.setText(name +" "+ apellido);
+                    txtname.setText(name + " " + apellido);
 
-                    if (datasnapshot.hasChild("image")){
+                    if (datasnapshot.hasChild("image")) {
                         String image = Objects.requireNonNull(datasnapshot.child("image").getValue()).toString();
                         Picasso.get().load(image).into(profileImageView);
                     }
@@ -152,6 +172,7 @@ public class ActualizarDatos extends AppCompatActivity {
     public void update_Data(String name, String apellido, String telefono) {
         //Actualiza Los Datos
         Map<String, Object> Data = new HashMap<>();
+        //HTTP
         Data.put("nombre", name);
         Data.put("apellido", apellido);
         Data.put("telefono", telefono);
@@ -167,15 +188,13 @@ public class ActualizarDatos extends AppCompatActivity {
         overridePendingTransition(0, zoomOut);
         finish();
     }
+
     //🡣🡣🡣Flecha Atras🡣🡣🡣
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(ActualizarDatos.this, Home.class));
-            overridePendingTransition(0, zoomOut);
-            finish();
-            return true;
-        }
+        startActivity(new Intent(ActualizarDatos.this, Home.class));
+        overridePendingTransition(0, zoomOut);
+        finish();
         return super.onOptionsItemSelected(item);
     }
 }

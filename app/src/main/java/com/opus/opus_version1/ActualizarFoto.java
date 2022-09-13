@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.opus.opus_version1.Internet.Internet;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -33,8 +34,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActualizarFoto extends AppCompatActivity {
 
+    String id;
     CircleImageView profileImageView;
-    Button closeButton, saveButton;
+    Button closeButton, saveButton, deleteButton;
     TextView profileChangeBtn;
 
     DatabaseReference databaseReference;
@@ -42,6 +44,7 @@ public class ActualizarFoto extends AppCompatActivity {
 
     Uri imagenUri;
     String myUri = "";
+    String sinfoto = "https://firebasestorage.googleapis.com/v0/b/loginopus-23248.appspot.com/o/Profile%20Pic%2Fsinfoto.png?alt=media&token=42183b89-536c-405c-85e2-97f5d613253a";
     StorageTask uploadTask;
     StorageReference storageProfilePicsRef;
     //Atributos De Transicion
@@ -54,23 +57,43 @@ public class ActualizarFoto extends AppCompatActivity {
         setTitle("Actualizar Foto");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Usuarios");
         storageProfilePicsRef = FirebaseStorage.getInstance().getReference().child("Profile Pic");
+        //Obtengo el ID Ingresado
+        id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
+        //Asignacion de Id
         profileImageView = findViewById(R.id.profile_image);
         closeButton = findViewById(R.id.btnClose);
         saveButton = findViewById(R.id.btnSave);
+        deleteButton = findViewById(R.id.btnDelete);
         profileChangeBtn = findViewById(R.id.change_profile_btn);
 
+        //Proceso Al Dar Click
+        profileChangeBtn.setOnClickListener(view -> CropImage.activity().setAspectRatio(1, 1).start(ActualizarFoto.this));
         closeButton.setOnClickListener(view -> {
             startActivity(new Intent(ActualizarFoto.this, ActualizarDatos.class));
             finish();
         });
-        saveButton.setOnClickListener(view -> uploadProfileImage());
-        profileChangeBtn.setOnClickListener(view ->
-                CropImage.activity().setAspectRatio(1, 1).start(ActualizarFoto.this)
-        );
+        saveButton.setOnClickListener(view -> {
+            if (Internet.isOnline(ActualizarFoto.this)) {
+                uploadProfileImage();
+            } else {
+                Toast.makeText(ActualizarFoto.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        deleteButton.setOnClickListener(v -> {
+            if (Internet.isOnline(ActualizarFoto.this)) {
+                final StorageReference fileRef = storageProfilePicsRef.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + ".jpg");
+                databaseReference.child(id).child("image").removeValue();
+                fileRef.delete();
+                Toast.makeText(ActualizarFoto.this, "¡Foto Eliminada!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ActualizarFoto.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
+        });
         getUserinfo();
     }
 
@@ -78,8 +101,8 @@ public class ActualizarFoto extends AppCompatActivity {
         databaseReference.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                if(datasnapshot.exists() && datasnapshot.getChildrenCount()>0){
-                    if (datasnapshot.hasChild("image")){
+                if (datasnapshot.exists() && datasnapshot.getChildrenCount() > 0) {
+                    if (datasnapshot.hasChild("image")) {
                         String image = Objects.requireNonNull(datasnapshot.child("image").getValue()).toString();
                         Picasso.get().load(image).into(profileImageView);
                     }
@@ -112,8 +135,7 @@ public class ActualizarFoto extends AppCompatActivity {
         progressDialog.setMessage("Please wait, while we are setting your Data");
         progressDialog.show();
         if (imagenUri != null) {
-            final StorageReference fileRef = storageProfilePicsRef
-                    .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + ".jpg");
+            final StorageReference fileRef = storageProfilePicsRef.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid() + ".jpg");
             uploadTask = fileRef.putFile(imagenUri);
 
             uploadTask.continueWithTask(task -> {
@@ -123,7 +145,7 @@ public class ActualizarFoto extends AppCompatActivity {
                 return fileRef.getDownloadUrl();
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
                 if (task.isSuccessful()) {
-                    Uri downloadUrl = (Uri) task.getResult();
+                    Uri downloadUrl = task.getResult();
                     myUri = downloadUrl.toString();
 
                     HashMap<String, Object> userMap = new HashMap<>();
@@ -150,12 +172,9 @@ public class ActualizarFoto extends AppCompatActivity {
     //🡣🡣🡣Flecha Atras🡣🡣🡣
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, ActualizarDatos.class));
-            overridePendingTransition(0, zoomOut);
-            finish();
-            return true;
-        }
+        startActivity(new Intent(this, ActualizarDatos.class));
+        overridePendingTransition(0, zoomOut);
+        finish();
         return super.onOptionsItemSelected(item);
     }
 }

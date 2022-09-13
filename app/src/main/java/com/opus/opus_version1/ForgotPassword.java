@@ -1,11 +1,7 @@
 package com.opus.opus_version1;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -19,14 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.opus.opus_version1.Internet.NetworkChangeListener;
+import com.opus.opus_version1.Internet.Internet;
 
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
 public class ForgotPassword extends AppCompatActivity {
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     //Variable
     MaterialButton recuperarBoton;
     TextInputEditText emailEditText;
@@ -58,23 +53,18 @@ public class ForgotPassword extends AppCompatActivity {
         recuperarBoton = findViewById(R.id.recuperarBoton);
         //Instancio los TextField del ID
         emailEditText = findViewById(R.id.emailEditText);
-        //Conexion
-        ConnectivityManager con = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = con.getActiveNetworkInfo();
         //Al Dar Click Procesos
         nuevoUsuario.setOnClickListener(v -> {
-            if (networkInfo != null && networkInfo.isConnected()) {
                 startActivity(new Intent(ForgotPassword.this, SplashScreen.class));
                 overridePendingTransition(0, translateRight);
                 finish();
-            } else
-                Toast.makeText(ForgotPassword.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
         });
         recuperarBoton.setOnClickListener(v -> {
-            if (networkInfo != null && networkInfo.isConnected()) {
+            if (Internet.isOnline(this)) {
                 validate();
-            } else
-                Toast.makeText(ForgotPassword.this, " No Hay Conexion a Internet.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ForgotPassword.this, "¡Sin Acceso A Internet, Verifique Su Conexión.!", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -95,7 +85,6 @@ public class ForgotPassword extends AppCompatActivity {
     public void sendEmail(String email) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
-
             if (task.isSuccessful()) {
                 Toast.makeText(ForgotPassword.this, "¡Correo Enviado!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ForgotPassword.this, Login.class);
@@ -117,20 +106,6 @@ public class ForgotPassword extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    //Internet
-    @Override
-    protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(networkChangeListener);
-        super.onStop();
     }
 
     //Dar Click Hacia Atras

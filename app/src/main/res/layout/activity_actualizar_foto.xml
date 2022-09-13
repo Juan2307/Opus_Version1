@@ -6,58 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".ActualizarFoto">
 
-    <!--Foto De Perfil-->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/sinfoto"
-        app:civ_border_color="@color/colorPrimary"
-        app:civ_border_width="2dp" />
-
-    <TextView
-        android:id="@+id/change_profile_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Cambiar Foto"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/change_profile_btn"
-        android:layout_margin="16dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="vertical">
+        <!--Foto De Perfil-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/sinfoto"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/change_profile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="Cambiar Foto"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/muli_black"
+                android:text="Close"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:fontFamily="@font/muli_black"
+                android:text="Save"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btnClose"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Close"
-            android:fontFamily="@font/muli_black"
-            android:layout_marginRight="6dp"
+            android:id="@+id/btnDelete"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:backgroundTint="@color/red" />
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="0dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Save"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/red"
             android:fontFamily="@font/muli_black"
-            android:layout_marginLeft="6dp"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"/>
-
+            android:text="Borrar Foto"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="40dp"
     tools:context=".Perfil">
@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:paddingTop="10dp"
-                    android:paddingBottom="50dp"
+                    android:paddingBottom="40dp"
                     android:text="@string/selecciona_el_perfil_que_se_adecua_a_tus_requerimientos"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
@@ -41,20 +41,28 @@
 
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/Usuario"
+                    android:id="@+id/CheckUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="50dp"
-                    android:paddingBottom="80dp"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="40dp"
                     android:text="@string/Usuario" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/Proovedor"
+                    android:id="@+id/CheckProovedor"
                     android:layout_width="match_parent"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="40dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="50dp"
-                    android:paddingBottom="80dp"
                     android:text="@string/Proovedor" />
+
+                <ImageView
+                    android:id="@+id/abeja"
+                    android:layout_width="400dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/abejita" />
             </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

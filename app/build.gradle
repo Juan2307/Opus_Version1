@@ -66,6 +66,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-common-ktx:20.1.1'
     implementation 'com.google.firebase:firebase-auth:21.0.7'
     implementation 'com.google.firebase:firebase-database:20.0.5'
+    //Edad
+    implementation 'joda-time:joda-time:2.11.1'
     //Dialog Cargando
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     //Leer PDF

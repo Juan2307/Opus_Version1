@@ -1,4 +1,4 @@
-package com.opus.opus_version1.Fragment_Home;
+package com.opus.opus_version1.Part_Home;
 
 import android.graphics.drawable.Drawable;
 
@@ -17,16 +17,8 @@ public class categoriesHelperClasses {
         return Gradient;
     }
 
-    public void setGradient(Drawable gradient) {
-        Gradient = gradient;
-    }
-
     public int getImage() {
         return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 
     public String getTitle() {

@@ -22,30 +22,43 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.opus.opus_version1.Internet.Internet;
 
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Pattern;
 
 public class Sign_Up extends AppCompatActivity {
-    //Atributos
+    //Variables
+    String hoy;
+    public SimpleDateFormat simpleDateFormat;
+    //Calendario
     Calendar calendar = Calendar.getInstance();
     private final int day = calendar.get(Calendar.DAY_OF_MONTH);
     private final int month = calendar.get(Calendar.MONTH);
     private final int year = calendar.get(Calendar.YEAR);
+
+
     AutoCompleteTextView autoCompleteTextView;
     EditText et_date;
-    TextView edadTextField, nuevoUsuario, bienvenidoLabel, continuarLabel;
+    TextView edadTextField, ConCuenta, bienvenidoLabel, continuarLabel;
     TextInputLayout usuarioSingUpTextField, contrasenaTextField;
     ImageView signUpImageView;
     MaterialButton inicioSesion;
     TextInputEditText documentoTextField, nameTextField, lastnameTextField, telefonoTextField, emailEditText, passwordEditText, confirmPasswordEditText;
     CheckBox terminoCondiciones;
-    //Atributos FireBase
+    // FireBase
     FirebaseDatabase database;
     private DatabaseReference myRef;
     FirebaseAuth mAuth;
-    //Atributos Transicion
+    // Transicion
     public static int translateUp = R.anim.slide_out_up;
 
     @Override
@@ -62,12 +75,16 @@ public class Sign_Up extends AppCompatActivity {
         contrasenaTextField = findViewById(R.id.contrasenaTextField);
         //Instancio los Botones del ID
         inicioSesion = findViewById(R.id.inicioSesion);
-        nuevoUsuario = findViewById(R.id.nuevoUsuario);
+        ConCuenta = findViewById(R.id.ConCuenta);
         //Instancio los TextField del ID
         documentoTextField = findViewById(R.id.documentoTextField);
         nameTextField = findViewById(R.id.nameTextField);
         lastnameTextField = findViewById(R.id.lastnameTextField);
         et_date = findViewById(R.id.et_date);
+        //Fecha en el formato que queramos
+        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        hoy = simpleDateFormat.format(Calendar.getInstance().getTime());
+
         edadTextField = findViewById(R.id.edadTextField);
         telefonoTextField = findViewById(R.id.telefonoTextField);
         emailEditText = findViewById(R.id.emailEditText);
@@ -83,28 +100,55 @@ public class Sign_Up extends AppCompatActivity {
         myRef = database.getReference("Usuarios");
         mAuth = FirebaseAuth.getInstance();
         //Instancio ID Del CheckBox
-        terminoCondiciones = findViewById(R.id.idChec1);
+        terminoCondiciones = findViewById(R.id.CheckTerminos);
+
+
         //Al Dar Click Proceso
         et_date.setOnClickListener(v -> {
+            //Ventana
             DatePickerDialog datePickerDialog = new DatePickerDialog(Sign_Up.this, (view, year1, month1, day1) -> {
+                // +1 Porque Enero es 0
                 month1 = month1 + 1;
-                String date = day1 + "-" + month1 + "-" + year1;
+                String date = day1 + "/" + month1 + "/" + year1;
+                //Mostrar en el Edit Text
                 et_date.setText(date);
-
-                int resta = year - year1;
-                String resultado = String.valueOf(resta);
-                edadTextField.setText(resultado);
+                try {//Objeto
+                    Date date1 = simpleDateFormat.parse(date);
+                    Date date2 = simpleDateFormat.parse(hoy);
+                    long starDate = date1.getTime();
+                    long endDate = date2.getTime();
+                    //Fecha Seleccionada menor Actual haga:
+                    if (starDate <= endDate) {
+                        Period period = new Period(starDate, endDate, PeriodType.yearMonthDay());
+                        int years = period.getYears();
+                        if (years >= 18) {
+                            String edad = String.valueOf(years);
+                            edadTextField.setText(edad);
+                        } else {
+                            Toast.makeText(this, "Edad No Apta Para Usar Opus", Toast.LENGTH_LONG).show();
+                        }
+                    } else { // La fecha de nacimiento no debe ser mayor que la fecha de hoy.
+                        Toast.makeText(this, "Birth Date should not be larger than today´s date.", Toast.LENGTH_SHORT).show();
+                    }//Exepcion
+                } catch (ParseException e) {
+                    e.printStackTrace();//Capturar Exepcion
+                }
             }, year, month, day);
             datePickerDialog.show();
         });
         terminoCondiciones.setOnClickListener(v -> {
-            int id = v.getId();
-            if (id == R.id.idChec1) {
+            if (terminoCondiciones.isChecked()) {
                 startActivity(new Intent(this, TerminosCondiciones.class));
+            } else {
+                Toast.makeText(this, "Debes Aceptar Terminos Y Condiciones", Toast.LENGTH_SHORT).show();
             }
         });
-        inicioSesion.setOnClickListener(v -> validate());
-        nuevoUsuario.setOnClickListener(v -> {
+        inicioSesion.setOnClickListener(v -> {
+            if (Internet.isOnline(this)) {
+                validate();
+            }
+        });
+        ConCuenta.setOnClickListener(v -> {
             startActivity(new Intent(Sign_Up.this, Login.class));
             overridePendingTransition(0, translateUp);
             finish();
@@ -119,7 +163,6 @@ public class Sign_Up extends AppCompatActivity {
         String apellido = Objects.requireNonNull(Objects.requireNonNull(lastnameTextField.getText()).toString().trim().toLowerCase());
         String fecha = Objects.requireNonNull(et_date.getText()).toString().trim();
         String edad = Objects.requireNonNull(edadTextField.getText()).toString().trim();
-
         String telefono = Objects.requireNonNull(telefonoTextField.getText()).toString().trim();
         String email = Objects.requireNonNull(emailEditText.getText()).toString().trim().toLowerCase();
         String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
@@ -142,6 +185,10 @@ public class Sign_Up extends AppCompatActivity {
             nameTextField.setError("¡Campo Vacio!");
             Toast.makeText(this, "Faltan Mas Campos", Toast.LENGTH_SHORT).show();
             return;
+        } else if (nombre.length() < 3) {
+            nameTextField.setError("¿Cual Es Tu Nombre");
+            Toast.makeText(this, "Verifica El Campo Nombre", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             nameTextField.setError(null);
         }
@@ -150,23 +197,34 @@ public class Sign_Up extends AppCompatActivity {
             lastnameTextField.setError("¡Campo Vacio!");
             Toast.makeText(this, "Faltan Mas Campos", Toast.LENGTH_SHORT).show();
             return;
+        } else if (apellido.length() < 4) {
+            lastnameTextField.setError("¿Cual Es Tu Apellido?");
+            Toast.makeText(this, "Verifica El Campo Apellido", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             lastnameTextField.setError(null);
         }
         //Campo Fecha
         if (fecha.isEmpty()) {
             et_date.setError("¡Campo Vacio!");
-            Toast.makeText(this, "Faltan Mas Campos Scrollea Para Abajo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Faltan Mas Campos Porfavor Verificar Nuevamente", Toast.LENGTH_SHORT).show();
             return;
         } else {
             et_date.setError(null);
         }
         //Campo Edad
+        if (edad.isEmpty()) {
+            et_date.setError("¡Debes ser Mayor De Edad Para Usar La App!");
+            Toast.makeText(this, "Faltan Mas Campos Porfavor Verificar Nuevamente", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            edadTextField.setError(null);
+        }
 
         //Campo Telefono
         if (telefono.isEmpty()) {
             telefonoTextField.setError("¡Campo Vacio!");
-            Toast.makeText(this, "Faltan Mas Campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Faltan Mas Campos Porfavor Verificar", Toast.LENGTH_SHORT).show();
             return;
         } else if (telefono.length() < 10) {
             telefonoTextField.setError("Se Necesitan Mas De 10 numeros");
@@ -177,7 +235,7 @@ public class Sign_Up extends AppCompatActivity {
         //Campo Email
         if (email.isEmpty()) {
             emailEditText.setError("¡Campo Vacio!");
-            Toast.makeText(this, "Faltan Mas Campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Faltan Mas Campos Porfavor Verificar", Toast.LENGTH_SHORT).show();
             return;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("¡Correo Invalido!");
@@ -188,7 +246,7 @@ public class Sign_Up extends AppCompatActivity {
         //Campo Password
         if (password.isEmpty()) {
             passwordEditText.setError("¡Campo Vacio!");
-            Toast.makeText(this, "Faltan Mas Campos Scrollea Para Abajo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Faltan Mas Campos Porfavor Verificar", Toast.LENGTH_SHORT).show();
             return;
         } else if (password.length() < 8) {
             passwordEditText.setError("Se Necesitan Mas De 8 Caracteres");
@@ -202,7 +260,7 @@ public class Sign_Up extends AppCompatActivity {
         //Campo ConfirmPassword
         if (confirmPassword.isEmpty()) {
             confirmPasswordEditText.setError("¡Campo Vacio!");
-            Toast.makeText(this, "Faltan Mas Campos Scrollea Para Abajo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Faltan Mas Campos Porfavor Verificar", Toast.LENGTH_SHORT).show();
             return;
         } else if (!confirmPassword.equals(password)) {
             confirmPasswordEditText.setError("Deben Ser Iguales");
@@ -220,17 +278,18 @@ public class Sign_Up extends AppCompatActivity {
 
         if (terminoCondiciones.isChecked()) {
             //Ir Al Metodo Registrar
-            registrar(documento, nombre, apellido,fecha, telefono, email, password, profesion);
+            registrar(documento, nombre, apellido, fecha, edad, telefono, email, password, profesion);
         } else {
-            Toast.makeText(Sign_Up.this, "Aceptar Terminos Y Condiciones", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debes Aceptar Terminos Y Condiciones", Toast.LENGTH_SHORT).show();
         }
     }
 
     //🡣🡣🡣Validar Si La Cuenta Existe o La Crea🡣🡣🡣
-    public void registrar(String documento, String nombre, String apellido, String fechaNacimiento, String telefono, String email, String password, String profesion) {
+    public void registrar(String documento, String nombre, String apellido, String
+            fechaNacimiento, String edad, String telefono, String email, String password, String profesion) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Destinos destinos = new Destinos(documento, nombre, apellido,fechaNacimiento, telefono, email, profesion);
+                Destinos destinos = new Destinos(documento, nombre, apellido, fechaNacimiento, edad, telefono, email, profesion);
                 myRef.child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).setValue(destinos); //getUid.CHIL documento
                 startActivity(new Intent(Sign_Up.this, Bienvenido.class));
                 finish();
@@ -246,14 +305,12 @@ public class Sign_Up extends AppCompatActivity {
         finish();
     }
 
+    //Flecha Atras
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(Sign_Up.this, Perfil.class));
-            overridePendingTransition(0, translateUp);
-            finish();
-            return true;
-        }
+        startActivity(new Intent(Sign_Up.this, Perfil.class));
+        overridePendingTransition(0, translateUp);
+        finish();
         return super.onOptionsItemSelected(item);
     }
 }

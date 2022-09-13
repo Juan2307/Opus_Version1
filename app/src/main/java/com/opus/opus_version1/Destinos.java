@@ -6,6 +6,7 @@ public class Destinos {
     private String nombre;
     private String apellido;
     private String fechaNacimiento;
+    private String edad;
     private String telefono;
     private String email;
     private String profesionesDeInterés;
@@ -15,11 +16,12 @@ public class Destinos {
         super();
     }
 
-    public Destinos(String documento, String nombre, String apellido, String fechaNacimiento, String telefono, String email, String profesionesDeInterés) {
+    public Destinos(String documento, String nombre, String apellido, String fechaNacimiento, String edad, String telefono, String email, String profesionesDeInterés) {
         this.documento = documento;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
+        this.edad = edad;
         this.telefono = telefono;
         this.email = email;
         this.profesionesDeInterés = profesionesDeInterés;
@@ -55,6 +57,14 @@ public class Destinos {
 
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getEdad() {
+        return edad;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
     }
 
     public String getTelefono() {
