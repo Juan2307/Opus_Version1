@@ -1,12 +1,5 @@
 package com.opus.opus_version1;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -25,6 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,13 +35,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.opus.opus_version1.Internet.Internet;
 import com.opus.opus_version1.Part_Home.CategoriesAdapter;
 import com.opus.opus_version1.Part_Home.FeaturedAdapter;
 import com.opus.opus_version1.Part_Home.FeaturedHelperClass;
 import com.opus.opus_version1.Part_Home.MostViewedAdpater;
 import com.opus.opus_version1.Part_Home.MostViewedHelperClass;
 import com.opus.opus_version1.Part_Home.categoriesHelperClasses;
-import com.opus.opus_version1.Internet.Internet;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -403,4 +403,5 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             builder.show();
         }
     }
+
 }

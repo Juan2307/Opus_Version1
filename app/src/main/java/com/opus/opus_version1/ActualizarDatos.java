@@ -1,9 +1,11 @@
 package com.opus.opus_version1;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ public class ActualizarDatos extends AppCompatActivity {
     String id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
     FirebaseUser user;
 
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
